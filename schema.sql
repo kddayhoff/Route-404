@@ -11,7 +11,7 @@ CREATE TABLE destination (
     lon DECIMAL (30) NOT NULL,
     city VARCHAR(50),
     st VARCHAR(20),
-    PRIMARY KEY(lat, lon)
+    PRIMARY KEY(id, lat, lon)
 ) ENGINE = INNODB;    
 
 CREATE TABLE user (
@@ -26,7 +26,7 @@ CREATE TABLE user_dest (
     destination_id INT NOT NULL,
     destination_lat DECIMAL(30),
     destination_lon DECIMAL(30),
-    users_id INT NOT NULL,
+    user_id INT NOT NULL,
     PRIMARY KEY(ud),
     INDEX (destination_id ,destination_lat, destination_lon),
     INDEX (user_id),
