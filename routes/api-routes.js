@@ -7,7 +7,7 @@
 
 // Requiring our models
 var db = require("../models");
-
+console.log("it worked")
 // Routes
 // =============================================================
 module.exports = function(app) {
