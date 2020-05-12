@@ -1,4 +1,4 @@
--- Drops the route_db if it exists currently --
+
 DROP DATABASE IF EXISTS route_db;
 -- Creates the "route_db" database --
 CREATE DATABASE route_db;
