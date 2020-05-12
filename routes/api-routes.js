@@ -13,7 +13,7 @@ var db = require("../models");
 module.exports = function(app) {
 
   // GET route for getting all of the posts
-  app.get("/api/posts", function(req, res) {
+  app.get("/api/destinations", function(req, res) {
     var query = {};
     if (req.query.author_id) {
       query.AuthorId = req.query.author_id;
@@ -23,7 +23,7 @@ module.exports = function(app) {
     // In this case, just db.Author
     db.Post.findAll({
       where: query,
-      include: [db.Author]
+      include: [db.User]
     }).then(function(dbPost) {
       res.json(dbPost);
     });
@@ -46,7 +46,7 @@ module.exports = function(app) {
 
   // POST route for saving a new post
   app.post("/api/posts", function(req, res) {
-    db.Post.create(req.body).then(function(dbPost) {
+    db.Destination.create(req.body).then(function(dbPost) {
       res.json(dbPost);
     });
   });

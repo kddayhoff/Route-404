@@ -1,0 +1,1 @@
+//This is the master table that will hold all of the user data and populate their destinations with entries associated with that user.

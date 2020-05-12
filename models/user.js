@@ -1,12 +1,22 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('User', {
-    username: DataTypes.STRING
-  });
+//This model will populate user name and password into sql database
+module.exports = function(sequelize, DataTypes) {
+  var User = sequelize.define("User", {
+    // The email cannot be null, and must be a proper email before creation
+    user_email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
+    },
 
-  User.associate = function(models) {
-    models.User.hasMany(models.Post);
+    // The password cannot be null
+    user_pass: {
+      type: DataTypes.STRING,
+      allowNull: false
+     }
+    })  
+    return User;
   };
-
-  return User;
-};
