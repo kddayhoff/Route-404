@@ -4,9 +4,9 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING
   });
 
-  User.associate = function(models) {
-    models.User.hasMany(models.User);
-  };
+  // User.associate = function (models) {
+  //   User.hasMany(models.user);
+  // };
 
   return User;
 };
