@@ -12,18 +12,13 @@ module.exports = function(app) {
 
   // Each of the below routes just handles the HTML page that the user gets sent to.
 
-  // index route loads view.html
+  // index route loads home page, index.html
   app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/blog.html"));
+    res.sendFile(path.join(__dirname, "../public/index.html"));
   });
-
-  app.get("/cms", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/cms.html"));
-  });
-
-  // blog route loads blog.html
-  app.get("/blog", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/blog.html"));
+//this will load user specific profile along with journal/destination activities
+  app.get("/profile", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/userdest.html"));
   });
 
 };
