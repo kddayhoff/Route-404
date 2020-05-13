@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Dest = sequelize.define("destination", {
+  var Dest = sequelize.define("destinations", {
     lat: {
       type: DataTypes.DECIMAL,
       allowNull: false,
