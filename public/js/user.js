@@ -5,7 +5,7 @@ $(document).ready(function() {
   // Sets a flag for whether or not we're updating a post to be false initially
   var updating = false;
   //variable for APIkey
-  var APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38"
+  const APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38";
 
   // If we have this section in our url, we pull out the post id from the url
   // In localhost:8080/cms?post_id=1, destID is 1
@@ -78,7 +78,7 @@ $(document).ready(function() {
         window.location.href = "/userdest";
       });
   }
-});
+
 
 // function to update map onclick your saved locations column
   function initMap() {
@@ -116,7 +116,7 @@ $(document).ready(function() {
 
 
 // function to update map onclick all saved locations column
-function initMap() {
+function initMap2() {
 
   $('#all-saved-dest').on('click', 'li',(function() {
     var PLACENAME = $(this).text();
@@ -150,4 +150,6 @@ function initMap() {
 };
 
 
+
+});
 
