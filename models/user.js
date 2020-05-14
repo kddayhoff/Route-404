@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     destinations: DataTypes.STRING,
   });
 
+
   User.associate = function(models) {
     User.hasMany(models.destNotes, {
       onDelete: "cascade"
@@ -14,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     //associating notes with user destinations from destination.js
 
   };
-
 
   return User;
 };
