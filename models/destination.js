@@ -1,23 +1,26 @@
 module.exports = function(sequelize, DataTypes) {
-  var Dest = sequelize.define("destinations", {
-    lat: {
-      type: DataTypes.DECIMAL,
+  var destNotes = sequelize.define("notes", {
+    title:{
+      type:DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [1]
+        len:[1]
       }
     },
-    lng: {
-      type: DataTypes.DECIMAL,
+    body:{
+      type:DataTypes.TEXT,
       allowNull: false,
-      validate: {
-        len: [1]
-      }
-    },
-    dest: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      len:[1]
     }
   });
-  return Dest;
+
+  destNotes.associate = function(models){
+    destNotes.belongsTo(models.User), {
+      foreignKey:{allowNull:false}
+      //preventing a destination note being made without an user association
+    }
+  }
+  return destNotes;
 };
+
+// destinations will be associated with users, associate notes with destinations. 

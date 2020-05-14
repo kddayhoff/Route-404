@@ -12,26 +12,32 @@ var db = require("../models");
 // =============================================================
 module.exports = function(app) {
 
-  // GET route for getting all of the posts
-  app.get("/api/posts/", function(req, res) {
-    db.Post.findAll({})
-      .then(function(dbPost) {
-        res.json(dbPost);
+  // GET route for getting all of the posts of single user, named what id like. connected db variable from destination.js
+  app.get("/api/usernotes/", function(req, res) {
+    var query ={}
+    if (req.query.user_id){
+      query.userid = req.query.user_id
+    }
+    db.destNotes.findAll({
+      where: query
+    })
+      .then(function(dbdestNotes) {
+        res.json(dbdestNotes);
       });
   });
 
-  // Get route for returning posts of a specific category
-  app.get("/api/posts/category/:category", function(req, res) {
-    db.Post.findAll({
+  // Get route for returning a specifiic posts by id
+  app.get("/api/notes/:id", function(req, res) {
+    db.destNotes.findAll({
       where: {
-        category: req.params.category
+        id: req.params.id
       }
     })
-      .then(function(dbPost) {
-        res.json(dbPost);
+      .then(function(dbdestNotes) {
+        res.json(dbdestNotes);
       });
   });
-
+// route to user table; calling the destinations get route to /users/:id, restrict to a parameter
   // Get route for retrieving a single post
   app.get("/api/posts/:id", function(req, res) {
     db.Post.findOne({
