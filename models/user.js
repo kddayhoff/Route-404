@@ -1,12 +1,20 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var User = sequelize.define('Users', {
-    username: DataTypes.STRING
+    username: DataTypes.STRING,
+    destinations: DataTypes.STRING,
   });
 
   User.associate = function(models) {
-    models.User.hasMany(models.User);
+    User.hasMany(models.destNotes, {
+      onDelete: "cascade"
+//handling deletions of notes associated with users
+
+    })
+    //associating notes with user destinations from destination.js
+
   };
+
 
   return User;
 };
