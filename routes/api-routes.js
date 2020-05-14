@@ -12,11 +12,11 @@ var db = require("../models");
 // =============================================================
 module.exports = function(app) {
 
-  // GET route for getting all of the posts
-  app.get("/api/posts/", function(req, res) {
-    db.Post.findAll({})
-      .then(function(dbPost) {
-        res.json(dbPost);
+  // GET route for getting all of the posts, named what id like. connected db variable from destination.js
+  app.get("/api/destinations/", function(req, res) {
+    db.Dest.findAll({})
+      .then(function(dbDestinations) {
+        res.json(dbDestinations);
       });
   });
 
