@@ -21,7 +21,7 @@ module.exports = function(app) {
     db.Notes.findAll({
       where: query
     })
-      .then(function(dbdestNotes) {
+      .then(function(dbNotes) {
         res.json(dbdestNotes);
       });
   });
@@ -53,7 +53,7 @@ module.exports = function(app) {
   // POST route for saving a new post
   app.post("/api/posts", function(req, res) {
     console.log(req.body);
-    db.Post.create({
+    db.Notes.create({
       title: req.body.title,
       body: req.body.body,
       category: req.body.category

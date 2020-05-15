@@ -17,7 +17,7 @@
   },
   "production": {
     "username": "root",
-    "password": "assword",
+    "password": "password",
     "database": "route_db_production",
     "host": "localhost",
     "port": 3306,
