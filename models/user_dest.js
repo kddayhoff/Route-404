@@ -35,3 +35,4 @@ module.exports = function (sequelize, DataTypes) {
 //   }
   return UserDest;
 };
+//no comment needed
