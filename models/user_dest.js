@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  var userDest = sequelize.define("user_dests", {
+  var UserDest = sequelize.define("UserDest", {
     destination_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -29,9 +29,9 @@ module.exports = function (sequelize, DataTypes) {
       }
     ]
   });
-  userDest.associate = models => {
-    userDest.belongsTo(models.user);
-    userDest.hasMany(models.destination);
-  }
-  return userDest;
+//   userDest.associate = models => {
+//     userDest.belongsTo(models.user);
+//     userDest.hasMany(models.destination);
+//   }
+  return UserDest;
 };

@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var destNotes = sequelize.define("notes", {
+  var Notes = sequelize.define("Notes", {
     title:{
       type:DataTypes.STRING,
       allowNull: false,
@@ -14,13 +14,13 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  destNotes.associate = function(models){
-    destNotes.belongsTo(models.User), {
+  Notes.associate = function(models){
+    Notes.belongsTo(models.User), {
       foreignKey:{allowNull:false}
       //preventing a destination note being made without an user association
     }
   }
-  return destNotes;
+  return Notes;
 };
 
 // destinations will be associated with users, associate notes with destinations. 

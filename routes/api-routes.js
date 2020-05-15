@@ -18,7 +18,7 @@ module.exports = function(app) {
     if (req.query.user_id){
       query.userid = req.query.user_id
     }
-    db.destNotes.findAll({
+    db.Notes.findAll({
       where: query
     })
       .then(function(dbdestNotes) {
@@ -28,7 +28,7 @@ module.exports = function(app) {
 
   // Get route for returning a specifiic posts by id
   app.get("/api/notes/:id", function(req, res) {
-    db.destNotes.findAll({
+    db.Notes.findAll({
       where: {
         id: req.params.id
       }
@@ -40,7 +40,7 @@ module.exports = function(app) {
 // route to user table; calling the destinations get route to /users/:id, restrict to a parameter
   // Get route for retrieving a single post
   app.get("/api/posts/:id", function(req, res) {
-    db.Post.findOne({
+    db.Notes.findOne({
       where: {
         id: req.params.id
       }
