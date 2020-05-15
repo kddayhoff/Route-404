@@ -18,16 +18,16 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DECIMAL(9, 6),
       allowNull: false,
     },
-    indexes: [
-      {
-        unique: false,
-        fields: ["destination_id", "destination_lat", "destination_lon"]
-      },
-      {
-        unique: true,
-        fields: ['user_id']
-      }
-    ]
+    // indexes: [
+    //   {
+    //     unique: false,
+    //     fields: ["destination_id", "destination_lat", "destination_lon"]
+    //   },
+    //   {
+    //     unique: true,
+    //     fields: ['user_id']
+    //   }
+    // ]
   });
 //   userDest.associate = models => {
 //     userDest.belongsTo(models.user);
@@ -35,3 +35,4 @@ module.exports = function (sequelize, DataTypes) {
 //   }
   return UserDest;
 };
+//no comment needed
