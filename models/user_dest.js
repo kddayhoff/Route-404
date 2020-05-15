@@ -18,6 +18,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DECIMAL(9, 6),
       allowNull: false,
     },
+
     // indexes: [
     //   {
     //     unique: false,
@@ -32,7 +33,7 @@ module.exports = function (sequelize, DataTypes) {
 //   userDest.associate = models => {
 //     userDest.belongsTo(models.user);
 //     userDest.hasMany(models.destination);
-//   }
+  })
   return UserDest;
 };
-//no comment needed
+

@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "password",
+    "password": "yourRootPassword",
     "database": "route_db",
     "host": "localhost",
     "port": 3306,
@@ -9,7 +9,7 @@
   },
   "test": {
     "username": "root",
-    "password": "password",
+    "password": "yourRootPassword",
     "database": "route_db_test",
     "host": "localhost",
     "port": 3306,
@@ -17,7 +17,8 @@
   },
   "production": {
     "username": "root",
-    "password": "password",
+    "password": "yourRootPassword",
+
     "database": "route_db_production",
     "host": "localhost",
     "port": 3306,
