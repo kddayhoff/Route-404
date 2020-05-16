@@ -6,6 +6,10 @@
   -o-background-size: cover;
   background-size: contain;
 } */
+form.signup,
+form.login {
+  margin-top: 50px;
+}
 
 button.submit {
   float: right;
