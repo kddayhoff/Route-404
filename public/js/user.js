@@ -32,10 +32,11 @@ $(document).ready(function() {
       return;
     }
     // Constructing a newPost object to hand to the database
-    var newDest = destInput.val().trim()
+    var newDest = {
+      destination: destInput.val().trim(),
 
-    
-    geocode(newDest);
+    };
+
     console.log(newDest);
 
     // If we're updating a post run updatePost to update a post
@@ -50,12 +51,12 @@ $(document).ready(function() {
   })
 
   // Submits a new post and brings user to blog page upon completion
-  function submitPost(Notes) {
+  function submitNote(Notes) {
     $.post("/api/notes/", Notes, function() {
       window.location.href = "/userdest";
     });
   }
-
+submitNote();
   // Gets post data for a post if we're editing
   function getNoteData(id) {
     $.get("/api/notes/" + id, function(data) {
@@ -80,10 +81,9 @@ $(document).ready(function() {
     })
       .then(function() {
         window.location.href = "/userdest";
-      });
-      updateNote();
+      }); 
   }
-
+  updateNote();
 
 // function to update map onclick your saved locations column
 
@@ -100,7 +100,7 @@ function geocode(query){
     url: 'https://api.opencagedata.com/geocode/v1/json',
     method: 'GET',
     data: {
-      'key': "47c3a4e7c75c45e7ad46ffc3e676da38",
+      'key': '47c3a4e7c75c45e7ad46ffc3e676da38',
       'q': query,
       'no_annotations': 1
       // see other optional params:
@@ -110,7 +110,7 @@ function geocode(query){
     statusCode: {
       200: function(response){  // success
         console.log(response.results[0].formatted);
-        console.log(response)
+        console.log(response.results)
       },
       402: function(){
         console.log('hit free-trial daily limit');
@@ -122,7 +122,11 @@ function geocode(query){
   });
 }
 
-
+$(document).ready(function(){
+  geocode('Nashville TN');
+  // console should now show:
+  // 'Goethe-Nationalmuseum, Frauenplan 1, 99423 Weimar, Germany'
+});
 
 function initMap() {
 
@@ -192,128 +196,129 @@ function initMap2() {
 )
 };
 
-// $(document).ready(function() {
-//   // blogContainer holds all of our posts
-//   var noteContainer = $(".note-container");
+$(document).ready(function() {
+  // blogContainer holds all of our posts
+  var noteContainer = $(".note-container");
  
-//   // Click events for the edit and delete buttons
-//   $(document).on("click", "button.delete", handleNoteDelete);
-//   $(document).on("click", "button.edit", handleNoteEdit);
+  // Click events for the edit and delete buttons
+  $(document).on("click", "button.delete", handleNoteDelete);
+  $(document).on("click", "button.edit", handleNoteEdit);
  
-//   var notes;
+  var notes;
 
-//   // this gets notes from our db and posts them to the page
-//   function getNotes() {
-//     $.get("/api/notes",  function(data) {
-//       console.log("Notes", data);
-//       notes = data;
-//       if (!notes || !notes.length) {
-//         displayEmpty();
-//       }
-//       else {
-//         initializeRows();
-//       }
-//     });
+  // this gets notes from our db and posts them to the page
+  function getNotes() {
+    $.get("/api/notes",  function(data) {
+      console.log("Notes", data);
+      notes = data;
+      if (!notes || !notes.length) {
+        displayEmpty();
+      }
+      else {
+        initializeRows();
+      }
+    });
    
-//   }
-//  getPosts();
-//   // This function does an API call to delete posts
-//   function deleteNote(id) {
-//     $.ajax({
-//       method: "DELETE",
-//       url: "/api/notes/" + id
-//     })
-//       .then(function() {
-//         getNotes(noteCategorySelect.val());
-//       });
-//   }
-// deleteNote();
-//   // Getting the initial list of posts
+  }
+ getPosts();
+  // This function does an API call to delete posts
+  function deleteNote(id) {
+    $.ajax({
+      method: "DELETE",
+      url: "/api/notes/" + id
+    })
+      .then(function() {
+        getNotes(noteCategorySelect.val());
+      });
+  }
+deleteNote();
+  // Getting the initial list of posts
 
-//   // InitializeRows handles appending all of our constructed post HTML inside
-//   // blogContainer
-//   function initializeRows() {
-//     noteContainer.empty();
-//     var notesToAdd = [];
-//     for (var i = 0; i < notes.length; i++) {
-//       notesToAdd.push(createNewRow(posts[i]));
-//     }
-//     noteContainer.append(notesToAdd);
-//   }
+  // InitializeRows handles appending all of our constructed post HTML inside
+  // blogContainer
+  function initializeRows() {
+    noteContainer.empty();
+    var notesToAdd = [];
+    for (var i = 0; i < notes.length; i++) {
+      notesToAdd.push(createNewRow(posts[i]));
+    }
+    noteContainer.append(notesToAdd);
+  }
 
-//   // This function constructs a post's HTML
-//   function createNewRow(post) {
-//     var newNoteCard = $("<div>");
-//     newNoteCard.addClass("card");
-//     var newNoteCardHeading = $("<div>");
-//     newNoteCardHeading.addClass("card-header");
-//     var deleteBtn = $("<button>");
-//     deleteBtn.text("x");
-//     deleteBtn.addClass("delete btn btn-danger");
-//     var editBtn = $("<button>");
-//     editBtn.text("EDIT");
-//     editBtn.addClass("edit btn btn-default");
-//     var newNoteTitle = $("<h2>");
-//     var newNoteDate = $("<small>");
-//     var newNoteCategory = $("<h5>");
-//     newNoteCategory.text(note.category);
-//     newNoteCategory.css({
-//       float: "right",
-//       "font-weight": "700",
-//       "margin-top":
-//       "-15px"
-//     });
-//     var newNoteCardBody = $("<div>");
-//     newNoteCardBody.addClass("card-body");
-//     var newNoteBody = $("<p>");
-//     newNoteTitle.text(note.title + " ");
-//     newNoteBody.text(note.body);
-//     var formattedDate = new Date(note.createdAt);
-//     formattedDate = moment(formattedDate).format("MMMM Do YYYY, h:mm:ss a");
-//     newNoteDate.text(formattedDate);
-//     newNoteTitle.append(newNoteDate);
-//     newNoteCardHeading.append(deleteBtn);
-//     newNoteCardHeading.append(editBtn);
-//     newNoteCardHeading.append(newNoteTitle);
-//     newNoteCardHeading.append(newNoteCategory);
-//     newNoteCardBody.append(newNoteBody);
-//     newNoteCard.append(newNoteCardHeading);
-//     newNoteCard.append(newNoteCardBody);
-//     newNoteCard.data("note", note);
-//     return newNoteCard;
-//   }
+  // This function constructs a post's HTML
+  function createNewRow(post) {
+    var newNoteCard = $("<div>");
+    newNoteCard.addClass("card");
+    var newNoteCardHeading = $("<div>");
+    newNoteCardHeading.addClass("card-header");
+    var deleteBtn = $("<button>");
+    deleteBtn.text("x");
+    deleteBtn.addClass("delete btn btn-danger");
+    var editBtn = $("<button>");
+    editBtn.text("EDIT");
+    editBtn.addClass("edit btn btn-default");
+    var newNoteTitle = $("<h2>");
+    var newNoteDate = $("<small>");
+    var newNoteCategory = $("<h5>");
+    newNoteCategory.text(note.category);
+    newNoteCategory.css({
+      float: "right",
+      "font-weight": "700",
+      "margin-top":
+      "-15px"
+    });
+    var newNoteCardBody = $("<div>");
+    newNoteCardBody.addClass("card-body");
+    var newNoteBody = $("<p>");
+    newNoteTitle.text(note.title + " ");
+    newNoteBody.text(note.body);
+    var formattedDate = new Date(note.createdAt);
+    formattedDate = moment(formattedDate).format("MMMM Do YYYY, h:mm:ss a");
+    newNoteDate.text(formattedDate);
+    newNoteTitle.append(newNoteDate);
+    newNoteCardHeading.append(deleteBtn);
+    newNoteCardHeading.append(editBtn);
+    newNoteCardHeading.append(newNoteTitle);
+    newNoteCardHeading.append(newNoteCategory);
+    newNoteCardBody.append(newNoteBody);
+    newNoteCard.append(newNoteCardHeading);
+    newNoteCard.append(newNoteCardBody);
+    newNoteCard.data("note", note);
+    return newNoteCard;
+  }
 
-//   // This function figures out which post we want to delete and then calls
-//   // deletePost
-//   function handleNoteDelete() {
-//     var currentNote = $(this)
-//       .parent()
-//       .parent()
-//       .data("note");
-//     deletePost(currentNote.id);
-//   }
+  // This function figures out which post we want to delete and then calls
+  // deletePost
+  function handleNoteDelete() {
+    var currentNote = $(this)
+      .parent()
+      .parent()
+      .data("note");
+    deletePost(currentNote.id);
+  }
 
-//   // This function figures out which post we want to edit and takes it to the
-//   // Appropriate url
-//   function handleNoteEdit() {
-//     var currentNote = $(this)
-//       .parent()
-//       .parent()
-//       .data("note");
-//     window.location.href = "/notes?user_id=" + currentPost.id;
-//   }
+  // This function figures out which post we want to edit and takes it to the
+  // Appropriate url
+  function handleNoteEdit() {
+    var currentNote = $(this)
+      .parent()
+      .parent()
+      .data("note");
+    window.location.href = "/notes?user_id=" + currentPost.id;
+  }
 
-//   // This function displays a message when there are no posts
-//   function displayEmpty() {
-//     noteContainer.empty();
-//     var messageH2 = $("<h2>");
-//     messageH2.css({ "text-align": "center", "margin-top": "50px" });
-//     messageH2.html("No posts yet for this category, navigate <a href='/notes'>here</a> in order to create a new post.");
-//     noteContainer.append(messageH2);
-//   }
+  // This function displays a message when there are no posts
+  function displayEmpty() {
+    noteContainer.empty();
+    var messageH2 = $("<h2>");
+    messageH2.css({ "text-align": "center", "margin-top": "50px" });
+    messageH2.html("No posts yet for this category, navigate <a href='/notes'>here</a> in order to create a new post.");
+    noteContainer.append(messageH2);
+  }
 
-//   // This function handles reloading new posts when the category changes
-//   function handleCategoryChange() {
-//     var newNoteCategory = $(this).val();
-//     getNotes(newNoteCategory);
-//   }
+  // This function handles reloading new posts when the category changes
+  function handleCategoryChange() {
+    var newNoteCategory = $(this).val();
+    getNotes(newNoteCategory);
+  }
+  })
