@@ -1,6 +1,6 @@
 $(document).ready(function() {
   // blogContainer holds all of our posts
-  var blogContainer = $(".note-container");
+  var noteContainer = $(".note-container");
   var noteCategorySelect = $("#category");
   // Click events for the edit and delete buttons
   $(document).on("click", "button.delete", handleNoteDelete);
@@ -24,8 +24,9 @@ $(document).ready(function() {
         initializeRows();
       }
     });
+   
   }
-
+ getPosts();
   // This function does an API call to delete posts
   function deleteNote(id) {
     $.ajax({
@@ -36,9 +37,9 @@ $(document).ready(function() {
         getNotes(noteCategorySelect.val());
       });
   }
-
+deleteNote();
   // Getting the initial list of posts
-  getNotes();
+
   // InitializeRows handles appending all of our constructed post HTML inside
   // blogContainer
   function initializeRows() {
