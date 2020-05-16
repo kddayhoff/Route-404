@@ -40,7 +40,9 @@ module.exports = function (app) {
   });
   // route to user table; calling the destinations get route to /users/:id, restrict to a parameter
   // Get route for retrieving a single post
-  app.get("/api/posts/:id", function (req, res) {
+
+  app.get("/api/notes/:id", function(req, res) {
+
     db.Notes.findOne({
       where: {
         id: req.params.id
@@ -57,7 +59,7 @@ module.exports = function (app) {
     db.Notes.create({
       title: req.body.title,
       body: req.body.body,
-      category: req.body.category
+      
     })
       .then(function (dbNote) {
         res.json(dbNote);
