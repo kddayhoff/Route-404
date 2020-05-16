@@ -1,11 +1,15 @@
+
+
+//variable for APIkey
+const APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38";
+
 $(document).ready(function() {
   // Gets an optional query string from our url (i.e. ?post_id=23)
   var url = window.location.search;
   var destID;
   // Sets a flag for whether or not we're updating a post to be false initially
   var updating = false;
-  //variable for APIkey
-  const APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38";
+ 
 
   // If we have this section in our url, we pull out the post id from the url
   // In localhost:8080/cms?post_id=1, destID is 1
@@ -18,7 +22,7 @@ $(document).ready(function() {
 
   var destInput = $("#destination");
   var destInputForm = $("#destInput");
-  
+
 
   // Event listener for when the form is submitted for destination
   $(destInputForm).on("submit", function handleFormSubmit(event) {
@@ -44,7 +48,7 @@ $(document).ready(function() {
     else {
       submitPost(newDest);
     }
-  });
+  })
 
   // Submits a new post and brings user to blog page upon completion
   function submitPost(Notes) {
@@ -67,6 +71,7 @@ $(document).ready(function() {
     });
   }
 
+
   // Update a given post, bring user to the blog page when done
   function updateNote(note) {
     $.ajax({
@@ -82,37 +87,79 @@ $(document).ready(function() {
 
 
 // function to update map onclick your saved locations column
-  function initMap() {
 
-    $('#saved-dest').on('click', 'li',(function() {
-      var PLACENAME = $(this).text();
-      var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
 
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    }).then(function(results) {
-      
-      var lng = parseFloat(results.geometry.lng);
-      var lat = parseFloat(results.geometry.lat);
-      var map = new google.maps.Map(
-        document.getElementById('map'), {
-            zoom: 8, 
-            center: {
-                lat: lat,
-                lng: lng
-            }
-        });
-    var marker = new google.maps.Marker({
-        position: {
-            lat: lat,
-            lng: lng
-        },
-         map: map
-        });
-      })
+
+
+initMap();
+initMap2();
+
+});
+
+function geocode(query){
+  $.ajax({
+    url: 'https://api.opencagedata.com/geocode/v1/json',
+    method: 'GET',
+    data: {
+      'key': '47c3a4e7c75c45e7ad46ffc3e676da38',
+      'q': query,
+      'no_annotations': 1
+      // see other optional params:
+      // https://opencagedata.com/api#forward-opt
+    },
+    dataType: 'json',
+    statusCode: {
+      200: function(response){  // success
+        console.log(response.results[0].formatted);
+        console.log(response.results)
+      },
+      402: function(){
+        console.log('hit free-trial daily limit');
+        console.log('become a customer: https://opencagedata.com/pricing');
+      }
+      // other possible response codes:
+      // https://opencagedata.com/api#codes
+    }
+  });
+}
+
+$(document).ready(function(){
+  geocode('Nashville TN');
+  // console should now show:
+  // 'Goethe-Nationalmuseum, Frauenplan 1, 99423 Weimar, Germany'
+});
+
+function initMap() {
+
+  $('#saved-dest').on('click', 'li',(function() {
+    var PLACENAME = $(this).text();
+    var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(results) {
+    
+    var lng = parseFloat(results.geometry.lng);
+    var lat = parseFloat(results.geometry.lat);
+    var map = new google.maps.Map(
+      document.getElementById('map'), {
+          zoom: 8, 
+          center: {
+              lat: lat,
+              lng: lng
+          }
+      });
+  var marker = new google.maps.Marker({
+      position: {
+          lat: lat,
+          lng: lng
+      },
+       map: map
+      });
     })
-  )
+  })
+)
 };
 
 
@@ -149,9 +196,4 @@ function initMap2() {
   })
 )
 };
-
-initMap();
-initMap2();
-
-});
 
