@@ -30,10 +30,10 @@ module.exports = function (sequelize, DataTypes) {
     //   }
     // ]
   });
-//   userDest.associate = models => {
-//     userDest.belongsTo(models.user);
-//     userDest.hasMany(models.destination);
-  })
+  //   userDest.associate = models => {
+  //     userDest.belongsTo(models.user);
+  //     userDest.hasMany(models.destination);
   return UserDest;
 };
+
 
