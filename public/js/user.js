@@ -36,7 +36,7 @@ $(document).ready(function() {
       destination: destInput.val().trim(),
 
     };
-
+    geocode(newDest);
     console.log(newDest);
 
     // If we're updating a post run updatePost to update a post
@@ -101,7 +101,7 @@ function geocode(query){
     url: 'https://api.opencagedata.com/geocode/v1/json',
     method: 'GET',
     data: {
-      'key': '47c3a4e7c75c45e7ad46ffc3e676da38',
+      'key': "47c3a4e7c75c45e7ad46ffc3e676da38",
       'q': query,
       'no_annotations': 1
       // see other optional params:
@@ -111,7 +111,7 @@ function geocode(query){
     statusCode: {
       200: function(response){  // success
         console.log(response.results[0].formatted);
-        console.log(response.results)
+        console.log(response)
       },
       402: function(){
         console.log('hit free-trial daily limit');
@@ -123,11 +123,11 @@ function geocode(query){
   });
 }
 
-$(document).ready(function(){
-  geocode('Nashville TN');
+// $(document).ready(function(){
+//   geocode(destInput);
   // console should now show:
   // 'Goethe-Nationalmuseum, Frauenplan 1, 99423 Weimar, Germany'
-});
+// });
 
 function initMap() {
 
