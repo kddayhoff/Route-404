@@ -56,7 +56,7 @@ module.exports = function(app) {
     db.Notes.create({
       title: req.body.title,
       body: req.body.body,
-      category: req.body.category
+      
     })
       .then(function(dbNote) {
         res.json(dbNote);

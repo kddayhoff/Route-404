@@ -12,11 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "axios": "^0.19.2",
-=======
     "bcryptjs": "^2.4.3",
->>>>>>> ce54de76b79bf40cee5e96c04ee3c1e5e6b53f32
     "dotenv": "^8.2.0",
     "eslint": "^7.0.0",
     "express": "^4.16.3",
