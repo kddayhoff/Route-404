@@ -11,7 +11,7 @@ $(document).ready(function() {
   // In localhost:8080/cms?post_id=1, destID is 1
   if (url.indexOf("?destination_id=") !== -1) {
     destID = url.split("=")[1];
-    getPostData(destID);
+    getNoteData(destID);
   }
 
   // Getting jQuery references to the post destination
@@ -47,15 +47,15 @@ $(document).ready(function() {
   });
 
   // Submits a new post and brings user to blog page upon completion
-  function submitPost(Post) {
-    $.post("/api/input/", Post, function() {
+  function submitPost(Notes) {
+    $.post("/api/notes/", Notes, function() {
       window.location.href = "/userdest";
     });
   }
 
   // Gets post data for a post if we're editing
-  function getPostData(id) {
-    $.get("/api/input/" + id, function(data) {
+  function getNoteData(id) {
+    $.get("/api/notes/" + id, function(data) {
       if (data) {
         // If this post exists, prefill our cms forms with its data
         destInput.val(data.title);
@@ -68,15 +68,16 @@ $(document).ready(function() {
   }
 
   // Update a given post, bring user to the blog page when done
-  function updatePost(post) {
+  function updateNote(note) {
     $.ajax({
       method: "PUT",
-      url: "/api/input",
+      url: "/api/notes",
       data: post
     })
       .then(function() {
         window.location.href = "/userdest";
       });
+      updateNote();
   }
 
 
@@ -149,7 +150,8 @@ function initMap2() {
 )
 };
 
-
+initMap();
+initMap2();
 
 });
 
