@@ -32,10 +32,9 @@ $(document).ready(function() {
       return;
     }
     // Constructing a newPost object to hand to the database
-    var newDest = {
-      destination: destInput.val().trim(),
+    var newDest = destInput.val().trim()
 
-    };
+    
     geocode(newDest);
     console.log(newDest);
 
@@ -123,11 +122,7 @@ function geocode(query){
   });
 }
 
-// $(document).ready(function(){
-//   geocode(destInput);
-  // console should now show:
-  // 'Goethe-Nationalmuseum, Frauenplan 1, 99423 Weimar, Germany'
-// });
+
 
 function initMap() {
 

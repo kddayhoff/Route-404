@@ -24,7 +24,7 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, "../public/userdest.html"));
   });
 
-};
+
 app.get("/", function (req, res) {
   // If the user already has an account send them to the members page
   if (req.user) {
@@ -46,4 +46,4 @@ app.get("/login", function (req, res) {
 app.get("/userdest", isAuthenticated, function (req, res) {
   res.sendFile(path.join(__dirname, "../public/userdest.html"));
 });
-
+}
