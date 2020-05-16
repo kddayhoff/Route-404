@@ -17,7 +17,7 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 //this will load user specific profile along with journal/destination activities
-  app.get("/profile", function(req, res) {
+  app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "../public/userdest.html"));
   });
 
