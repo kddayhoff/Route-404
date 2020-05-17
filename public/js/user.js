@@ -13,7 +13,6 @@ $(document).ready(function() {
  
 
   // If we have this section in our url, we pull out the post id from the url
-  // In localhost:8080/cms?post_id=1, destID is 1
   if (url.indexOf("?destination_id=") !== -1) {
     destID = url.split("=")[1];
     getNoteData(destID);
@@ -39,54 +38,17 @@ $(document).ready(function() {
 
     console.log(newDest);
 
-    // If we're updating a post run updatePost to update a post
-    // Otherwise run submitPost to create a whole new post
     if (updating) {
       newDest.id = destID;
-      updatePost(newDest);
+      updateNote(newDest);
     }
     else {
-      submitPost(newDest);
+      submitNote(newDest);
     }
 
     initMap();
   })
-
-  // Submits a new post and brings user to blog page upon completion
-  function submitPost(Notes) {
-    $.post("/api/notes/", Notes, function() {
-      window.location.href = "/userdest";
-    });
-  }
-submitPost();
-  // Gets post data for a post if we're editing
-  function getNoteData(id) {
-    $.get("/api/notes/" + id, function(data) {
-      if (data) {
-        // If this post exists, prefill our cms forms with its data
-        destInput.val(data.title);
-       
-        // If we have a post with this id, set a flag for us to know to update the post
-        // when we hit submit
-        updating = true;
-      }
-    });
-  }
-
-
-  // Update a given post, bring user to the blog page when done
-  function updateNote(note) {
-    $.ajax({
-      method: "PUT",
-      url: "/api/notes",
-      data: post
-    })
-      .then(function() {
-        window.location.href = "/userdest";
-      }); 
-  }
-  updateNote();
-
+ 
 // function to update map onclick your saved locations column
 
 });
@@ -114,8 +76,7 @@ function geocode(query){
       }
     }
    
-  });
-  
+  }); 
 }
 
 
@@ -148,8 +109,6 @@ function initMap() {
        map: map
       });
     })
-  
-
 };
 
 // function initMap() {
@@ -220,13 +179,13 @@ function initMap() {
 // )
 // };
 
-$(document).ready(function() {
+
   // blogContainer holds all of our posts
-  var noteContainer = $(".note-container");
+  // var noteContainer = $(".note-container");
  
   // Click events for the edit and delete buttons
-  $(document).on("click", "button.delete", handleNoteDelete);
-  $(document).on("click", "button.edit", handleNoteEdit);
+  // $(document).on("click", "button.delete", handleNoteDelete);
+  // $(document).on("click", "button.edit", handleNoteEdit);
  
   var notes;
 
@@ -239,12 +198,55 @@ $(document).ready(function() {
         displayEmpty();
       }
       else {
-        initializeRows();
+        $("#all-saved-dest").append("<li>");
       }
     });
-   
   }
- getPosts();
+getNotes();
+
+// Gets post data for a post if we're editing
+function getNoteData(id) {
+  $.get("/api/notes/" + id, function(data) {
+    if (data) {
+      // If this post exists, prefill our cms forms with its data
+      destInput.val(data.title);
+     
+      // If we have a post with this id, set a flag for us to know to update the post
+      // when we hit submit
+      updating = true;
+    }
+  });
+}
+
+function submitNote(Notes) {
+  $.post("/api/notes/", Notes, function() {
+    window.location.href = "/userdest";
+  });
+}
+submitNote();
+
+
+// function initializeRows() {
+//     noteContainer.empty();
+//     var notesToAdd = [];
+//     for (var i = 0; i < notes.length; i++) {
+//       notesToAdd.push(createNewRow(notes[i]));
+//     }
+//     noteContainer.append(notesToAdd);
+//   }
+function updateNote(note) {
+  $.ajax({
+    method: "PUT",
+    url: "/api/notes",
+    data: post
+  })
+    .then(function() {
+      window.location.href = "/userdest";
+    }); 
+}
+updateNote();
+
+
   // This function does an API call to delete posts
   function deleteNote(id) {
     $.ajax({
@@ -256,93 +258,83 @@ $(document).ready(function() {
       });
   }
 deleteNote();
+
+
   // Getting the initial list of posts
 
   // InitializeRows handles appending all of our constructed post HTML inside
   // blogContainer
-  function initializeRows() {
-    noteContainer.empty();
-    var notesToAdd = [];
-    for (var i = 0; i < notes.length; i++) {
-      notesToAdd.push(createNewRow(posts[i]));
-    }
-    noteContainer.append(notesToAdd);
-  }
+  
 
   // This function constructs a post's HTML
-  function createNewRow(post) {
-    var newNoteCard = $("<div>");
-    newNoteCard.addClass("card");
-    var newNoteCardHeading = $("<div>");
-    newNoteCardHeading.addClass("card-header");
-    var deleteBtn = $("<button>");
-    deleteBtn.text("x");
-    deleteBtn.addClass("delete btn btn-danger");
-    var editBtn = $("<button>");
-    editBtn.text("EDIT");
-    editBtn.addClass("edit btn btn-default");
-    var newNoteTitle = $("<h2>");
-    var newNoteDate = $("<small>");
-    var newNoteCategory = $("<h5>");
-    newNoteCategory.text(note.category);
-    newNoteCategory.css({
-      float: "right",
-      "font-weight": "700",
-      "margin-top":
-      "-15px"
-    });
-    var newNoteCardBody = $("<div>");
-    newNoteCardBody.addClass("card-body");
-    var newNoteBody = $("<p>");
-    newNoteTitle.text(note.title + " ");
-    newNoteBody.text(note.body);
-    var formattedDate = new Date(note.createdAt);
-    formattedDate = moment(formattedDate).format("MMMM Do YYYY, h:mm:ss a");
-    newNoteDate.text(formattedDate);
-    newNoteTitle.append(newNoteDate);
-    newNoteCardHeading.append(deleteBtn);
-    newNoteCardHeading.append(editBtn);
-    newNoteCardHeading.append(newNoteTitle);
-    newNoteCardHeading.append(newNoteCategory);
-    newNoteCardBody.append(newNoteBody);
-    newNoteCard.append(newNoteCardHeading);
-    newNoteCard.append(newNoteCardBody);
-    newNoteCard.data("note", note);
-    return newNoteCard;
-  }
+  // function createNewRow(post) {
+  //   var newNoteCard = $("<div>");
+  //   newNoteCard.addClass("card");
+  //   var newNoteCardHeading = $("<div>");
+  //   newNoteCardHeading.addClass("card-header");
+  //   var deleteBtn = $("<button>");
+  //   deleteBtn.text("x");
+  //   deleteBtn.addClass("delete btn btn-danger");
+  //   var editBtn = $("<button>");
+  //   editBtn.text("EDIT");
+  //   editBtn.addClass("edit btn btn-default");
+  //   var newNoteTitle = $("<h2>");
+  //   var newNoteDate = $("<small>");
+  //   var newNoteCategory = $("<h5>");
+  //   newNoteCategory.text(note.category);
+  //   newNoteCategory.css({
+  //     float: "right",
+  //     "font-weight": "700",
+  //     "margin-top":
+  //     "-15px"
+  //   });
+  //   var newNoteCardBody = $("<div>");
+  //   newNoteCardBody.addClass("card-body");
+  //   var newNoteBody = $("<p>");
+  //   newNoteTitle.text(note.title + " ");
+  //   newNoteBody.text(note.body);
+  //   var formattedDate = new Date(note.createdAt);
+  //   formattedDate = moment(formattedDate).format("MMMM Do YYYY, h:mm:ss a");
+  //   newNoteDate.text(formattedDate);
+  //   newNoteTitle.append(newNoteDate);
+  //   newNoteCardHeading.append(deleteBtn);
+  //   newNoteCardHeading.append(editBtn);
+  //   newNoteCardHeading.append(newNoteTitle);
+  //   newNoteCardHeading.append(newNoteCategory);
+  //   newNoteCardBody.append(newNoteBody);
+  //   newNoteCard.append(newNoteCardHeading);
+  //   newNoteCard.append(newNoteCardBody);
+  //   newNoteCard.data("note", note);
+  //   return newNoteCard;
+  // }
 
   // This function figures out which post we want to delete and then calls
   // deletePost
-  function handleNoteDelete() {
-    var currentNote = $(this)
-      .parent()
-      .parent()
-      .data("note");
-    deletePost(currentNote.id);
-  }
+  // function handleNoteDelete() {
+  //   var currentNote = $(this)
+  //     .parent()
+  //     .parent()
+  //     .data("note");
+  //   deletePost(currentNote.id);
+  // }
 
   // This function figures out which post we want to edit and takes it to the
   // Appropriate url
-  function handleNoteEdit() {
-    var currentNote = $(this)
-      .parent()
-      .parent()
-      .data("note");
-    window.location.href = "/notes?user_id=" + currentPost.id;
-  }
+  // function handleNoteEdit() {
+  //   var currentNote = $(this)
+  //     .parent()
+  //     .parent()
+  //     .data("note");
+  //   window.location.href = "/notes?user_id=" + currentPost.id;
+  // }
 
   // This function displays a message when there are no posts
-  function displayEmpty() {
-    noteContainer.empty();
-    var messageH2 = $("<h2>");
-    messageH2.css({ "text-align": "center", "margin-top": "50px" });
-    messageH2.html("No posts yet for this category, navigate <a href='/notes'>here</a> in order to create a new post.");
-    noteContainer.append(messageH2);
-  }
-
-  // This function handles reloading new posts when the category changes
-  function handleCategoryChange() {
-    var newNoteCategory = $(this).val();
-    getNotes(newNoteCategory);
-  }
-  })
+//   function displayEmpty() {
+//     noteContainer.empty();
+//     var messageH2 = $("<h2>");
+//     messageH2.css({ "text-align": "center", "margin-top": "50px" });
+//     messageH2.html("No posts yet for this category, navigate <a href='/notes'>here</a> in order to create a new post.");
+//     noteContainer.append(messageH2);
+//   }
+// }
+  

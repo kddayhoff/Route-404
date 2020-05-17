@@ -81,3 +81,26 @@ module.exports = function(app) {
       });
   });
 };
+
+// app.get("/api/notes/:id", function(req, res) {
+//   db.UserDest.findAll({
+//     where: {
+//       id: req.params.id
+//     }
+//   })
+//     .then(function(dbDest) {
+//       res.json(dbDest);
+//     });
+// });
+
+// app.post("/api/notes", function(req, res) {
+//   console.log(req.body);
+//   db.UserDest.create({
+//     destination_id: req.body.destination_id,
+//     destination_lat: req.body.destination_lat,
+//     destination_lon: req.body.destination_lon
+//   })
+//     .then(function(dbNote) {
+//       res.json(dbNote);
+//     });
+// });
