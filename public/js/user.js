@@ -91,6 +91,7 @@ submitNote();
 
 });
 
+//geocode query for input box
 function geocode(query){
   $.ajax({
     url: 'https://api.opencagedata.com/geocode/v1/json',
@@ -99,8 +100,7 @@ function geocode(query){
       'key': '47c3a4e7c75c45e7ad46ffc3e676da38',
       'q': query,
       'no_annotations': 1
-      // see other optional params:
-      // https://opencagedata.com/api#forward-opt
+
     },
     dataType: 'json',
     statusCode: {
@@ -112,19 +112,12 @@ function geocode(query){
         console.log('hit free-trial daily limit');
         console.log('become a customer: https://opencagedata.com/pricing');
       }
-      // other possible response codes:
-      // https://opencagedata.com/api#codes
     }
    
   });
   
 }
 
-$(document).ready(function(){
-  geocode('Nashville TN');
-  // console should now show:
-  // 'Goethe-Nationalmuseum, Frauenplan 1, 99423 Weimar, Germany'
-});
 
 function initMap() {
 
@@ -134,21 +127,19 @@ function initMap() {
   $.ajax({
     url: queryURL,
     method: "GET"
-  }).then(function(results) {
-    console.log(results[0].geometry)
-    var lng = parseFloat(results[0].geometry.lng);
-    var lat = parseFloat(results[0].geometry.lat);
+  }).then(function(response) {
+    console.log(response.results[0].geometry.lat);
+    var lat = response.results[0].geometry.lat;
+    var lng = response.results[0].geometry.lng;
     var map = new google.maps.Map(
       document.getElementById('map'), {
           zoom: 8, 
           center: {
               lat: lat,
               lng: lng,
-          }
-
-          
+          }   
       });
-      console.log(results);
+      console.log(lat, lng);
   var marker = new google.maps.Marker({
       position: {
           lat: lat,
