@@ -9,6 +9,7 @@ $(document).ready(function() {
   var destID;
   // Sets a flag for whether or not we're updating a post to be false initially
   var updating = false;
+  
  
 
   // If we have this section in our url, we pull out the post id from the url
@@ -47,6 +48,7 @@ $(document).ready(function() {
     else {
       submitPost(newDest);
     }
+    initMap();
   })
 
   // Submits a new post and brings user to blog page upon completion
@@ -87,12 +89,6 @@ $(document).ready(function() {
 
 // function to update map onclick your saved locations column
 
-
-
-
-initMap();
-initMap2();
-
 });
 
 function geocode(query){
@@ -119,32 +115,36 @@ function geocode(query){
       // other possible response codes:
       // https://opencagedata.com/api#codes
     }
+   
   });
+  
 }
 
 
 
 function initMap() {
 
-  $('#saved-dest').on('click', 'li',(function() {
-    var PLACENAME = $(this).text();
+    var PLACENAME = document.getElementById("destination").value;
     var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
 
   $.ajax({
     url: queryURL,
     method: "GET"
   }).then(function(results) {
-    
-    var lng = parseFloat(results.geometry.lng);
-    var lat = parseFloat(results.geometry.lat);
+    console.log(results[0].geometry)
+    var lng = parseFloat(results[0].geometry.lng);
+    var lat = parseFloat(results[0].geometry.lat);
     var map = new google.maps.Map(
       document.getElementById('map'), {
           zoom: 8, 
           center: {
               lat: lat,
-              lng: lng
+              lng: lng,
           }
+
+          
       });
+      console.log(results);
   var marker = new google.maps.Marker({
       position: {
           lat: lat,
@@ -153,44 +153,77 @@ function initMap() {
        map: map
       });
     })
-  })
-)
+  
+
 };
 
+// function initMap() {
 
-// function to update map onclick all saved locations column
-function initMap2() {
+//   $('#saved-dest').on('click', 'li',(function() {
+//     var PLACENAME = $(this).text();
+//     var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
 
-  $('#all-saved-dest').on('click', 'li',(function() {
-    var PLACENAME = $(this).text();
-    var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
-
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function(results) {
+//   $.ajax({
+//     url: queryURL,
+//     method: "GET"
+//   }).then(function(results) {
     
-    var lng = parseFloat(results.geometry.lng);
-    var lat = parseFloat(results.geometry.lat);
-    var map = new google.maps.Map(
-      document.getElementById('map'), {
-          zoom: 8, 
-          center: {
-              lat: lat,
-              lng: lng
-          }
-      });
-  var marker = new google.maps.Marker({
-      position: {
-          lat: lat,
-          lng: lng
-      },
-       map: map
-      });
-    })
-  })
-)
-};
+//     var lng = parseFloat(results.geometry.lng);
+//     var lat = parseFloat(results.geometry.lat);
+//     var map = new google.maps.Map(
+//       document.getElementById('map'), {
+//           zoom: 8, 
+//           center: {
+//               lat: lat,
+//               lng: lng
+//           }
+//       });
+//   var marker = new google.maps.Marker({
+//       position: {
+//           lat: lat,
+//           lng: lng
+//       },
+//        map: map
+//       });
+//     })
+//   })
+// )
+// };
+
+
+// // function to update map onclick all saved locations column
+// function initMap2() {
+
+//   $('#all-saved-dest').on('click', 'li',(function() {
+//     var PLACENAME = $(this).text();
+//     var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
+
+//   $.ajax({
+//     url: queryURL,
+//     method: "GET"
+//   }).then(function(results) {
+    
+//     var lng = parseFloat(results.geometry.lng);
+//     var lat = parseFloat(results.geometry.lat);
+//     var map = new google.maps.Map(
+//       document.getElementById('map'), {
+//           zoom: 8, 
+//           center: {
+//               lat: lat,
+//               lng: lng
+//           }
+//       });
+//   var marker = new google.maps.Marker({
+//       position: {
+//           lat: lat,
+//           lng: lng
+//       },
+//        map: map
+//       });
+//     })
+//   })
+// )
+// };
 
 // $(document).ready(function() {
 //   // blogContainer holds all of our posts
