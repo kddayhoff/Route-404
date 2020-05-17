@@ -33,10 +33,9 @@ $(document).ready(function() {
       return;
     }
     // Constructing a newPost object to hand to the database
-    var newDest = {
-      destination: destInput.val().trim(),
+    var newDest = destInput.val().trim()
 
-    };
+    geocode(newDest);
 
     console.log(newDest);
 
@@ -49,16 +48,17 @@ $(document).ready(function() {
     else {
       submitPost(newDest);
     }
+
     initMap();
   })
 
   // Submits a new post and brings user to blog page upon completion
-  function submitNote(Notes) {
+  function submitPost(Notes) {
     $.post("/api/notes/", Notes, function() {
       window.location.href = "/userdest";
     });
   }
-submitNote();
+submitPost();
   // Gets post data for a post if we're editing
   function getNoteData(id) {
     $.get("/api/notes/" + id, function(data) {
