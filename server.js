@@ -2,9 +2,10 @@
 require('dotenv').config();
 var express = require("express");
 var session = require("express-session");
+var passport = require("passport");
 
 // Requiring passport as we've configured it
-var passport = require("./config/passport");
+//var passport = require("./config/passport");
 
 // Setting up port and requiring models for syncing
 var PORT = process.env.PORT || 8080;
@@ -21,8 +22,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Requiring our routes
-require("./routes/api-routes.js")(app);
+require("./routes/api-routes.js")(app, passport);
 require("./routes/html-routes.js")(app);
+
+require("./config/passport.js")(passport, db.user);
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
