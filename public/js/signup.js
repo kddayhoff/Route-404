@@ -27,12 +27,11 @@ $(document).ready(function () {
         $.post("/api/signup", {
             email: email,
             password: password
-        })
-            .then(function (data) {
-                window.location.replace("/userdest.html");
-                // If there's an error, handle it by throwing up a bootstrap alert
-            })
-            .catch(handleLoginErr);
+        }).then(function (data) {
+            console.log(data);
+            window.location.replace("/userdest.html");
+            // If there's an error, handle it by throwing up a bootstrap alert
+        });
     }
 
     function handleLoginErr(err) {

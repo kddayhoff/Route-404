@@ -1,29 +1,26 @@
-// *****************************************************************************
-// Server.js - This file is the initial starting point for the Node/Express server.
-//
-// ******************************************************************************
-// *** Dependencies
-// =============================================================
+// Requiring necessary npm packages
 require('dotenv').config();
 var express = require("express");
+var session = require("express-session");
 
-// Sets up the Express App
-// =============================================================
-var app = express();
+// Requiring passport as we've configured it
+var passport = require("./config/passport");
+
+// Setting up port and requiring models for syncing
 var PORT = process.env.PORT || 8080;
-
-// Requiring our models for syncing
 var db = require("./models");
 
-// Sets up the Express app to handle data parsing
+// Creating express app and configuring middleware needed for authentication
+var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// Static directory
 app.use(express.static("public"));
+// We need to use sessions to keep track of our user's login status
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Routes
-// =============================================================
+// Requiring our routes
 require("./routes/api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 
