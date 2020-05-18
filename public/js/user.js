@@ -2,58 +2,10 @@
 
 //variable for APIkey
 const APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38";
-
-$(document).ready(function() {
-  // Gets an optional query string from our url (i.e. ?post_id=23)
-  var url = window.location.search;
-  var destID;
-  // Sets a flag for whether or not we're updating a post to be false initially
-  var updating = false;
-  
- 
-
-  // If we have this section in our url, we pull out the post id from the url
-  if (url.indexOf("?destination_id=") !== -1) {
-    destID = url.split("=")[1];
-    getNoteData(destID);
-  }
-
-  // Getting jQuery references to the post destination
-
-  var destInput = $("#destination");
-  var destInputForm = $("#destInput");
+var notes = [];
 
 
-  // Event listener for when the form is submitted for destination
-  $(destInputForm).on("submit", function handleFormSubmit(event) {
-    event.preventDefault();
-    // Wont submit the post if we are missing a body or a title
-    if (!destInput.val().trim()) {
-      return;
-    }
-    // Constructing a newPost object to hand to the database
-    var newDest = destInput.val().trim()
-
-    geocode(newDest);
-
-    console.log(newDest);
-
-    if (updating) {
-      newDest.id = destID;
-      updateNote(newDest);
-    }
-    else {
-      submitNote(newDest);
-    }
-
-    initMap();
-  })
- 
-// function to update map onclick your saved locations column
-
-});
-
-//geocode query for input box
+//function declarations
 function geocode(query){
   $.ajax({
     url: 'https://api.opencagedata.com/geocode/v1/json',
@@ -79,37 +31,175 @@ function geocode(query){
   }); 
 }
 
-
 function initMap() {
 
-    var PLACENAME = document.getElementById("destination").value;
-    var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
+  var PLACENAME = document.getElementById("destination").value;
+  var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
 
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function(response) {
-    console.log(response.results[0].geometry.lat);
-    var lat = response.results[0].geometry.lat;
-    var lng = response.results[0].geometry.lng;
-    var map = new google.maps.Map(
-      document.getElementById('map'), {
-          zoom: 8, 
-          center: {
-              lat: lat,
-              lng: lng,
-          }   
-      });
-      console.log(lat, lng);
-  var marker = new google.maps.Marker({
-      position: {
-          lat: lat,
-          lng: lng
-      },
-       map: map
-      });
-    })
+$.ajax({
+  url: queryURL,
+  method: "GET"
+}).then(function(response) {
+  console.log(response.results[0].geometry.lat);
+  var lat = response.results[0].geometry.lat;
+  var lng = response.results[0].geometry.lng;
+  var map = new google.maps.Map(
+    document.getElementById('map'), {
+        zoom: 8, 
+        center: {
+            lat: lat,
+            lng: lng,
+        }   
+    });
+    console.log(lat, lng);
+var marker = new google.maps.Marker({
+    position: {
+        lat: lat,
+        lng: lng
+    },
+     map: map
+    });
+  })
 };
+
+function getNotes() {
+  $.get("/api/notes",  function(data) {
+    console.log("Notes", data);
+    for (var i = 0; i < data.length; i++) {
+      var newItem = $("<li>");
+      newItem.text(data[i].title + " " + data[i].body);
+      console.log(newItem);
+      $("#all-saved-dest").append(newItem);
+    }
+     
+    });
+  }
+
+
+// Gets post data for a post if we're editing
+function getNoteData(id) {
+$.get("/api/notes/" + id, function(data) {
+  if (data) {
+    // If this post exists, prefill our cms forms with its data
+    destInput.val(data.title);
+   
+    // If we have a post with this id, set a flag for us to know to update the post
+    // when we hit submit
+    updating = true;
+  }
+});
+}
+
+function submitNote(note) {
+$.post("/api/notes/", note, function() {
+  window.location.href = "/userdest";
+});
+}
+
+
+
+// function initializeRows() {
+//     noteContainer.empty();
+//     var notesToAdd = [];
+//     for (var i = 0; i < notes.length; i++) {
+//       notesToAdd.push(createNewRow(notes[i]));
+//     }
+//     noteContainer.append(notesToAdd);
+//   }
+function updateNote(note) {
+$.ajax({
+  method: "PUT",
+  url: "/api/notes",
+  data: note
+})
+  .then(function() {
+    window.location.href = "/userdest";
+  }); 
+}
+
+
+
+// This function does an API call to delete posts
+function deleteNote(id) {
+  $.ajax({
+    method: "DELETE",
+    url: "/api/notes/" + id
+  })
+    .then(function() {
+      getNotes(noteCategorySelect.val());
+    });
+}
+
+
+
+$(document).ready(function() {
+  // Gets an optional query string from our url (i.e. ?post_id=23)
+  var url = window.location.search;
+  var destID;
+  // Sets a flag for whether or not we're updating a post to be false initially
+  var updating = false;
+  
+  getNotes();
+
+ 
+
+  // If we have this section in our url, we pull out the post id from the url
+  if (url.indexOf("?destination_id=") !== -1) {
+    destID = url.split("=")[1];
+    getNoteData(destID);
+  }
+
+  // Getting jQuery references to the post destination
+
+  var destInput = $("#destination");
+  var destInputForm = $("#destInput");
+
+
+  // Event listener for when the form is submitted for destination
+  $(destInputForm).on("submit", function handleFormSubmit(event) {
+    event.preventDefault();
+    
+    var newDest = destInput.val().trim()
+    var noteText = $("#note-text").val().trim();
+    // Wont submit the post if we are missing a body or a title
+    if (!newDest || !noteText) {
+      alert("Must enter destination and note")
+      return;
+    }
+    // Constructing a newPost object to hand to the database
+    
+
+    geocode(newDest);
+
+    console.log(newDest);
+
+    var newNote = {
+      title:newDest,
+      body:noteText
+    };
+
+    submitNote(newNote);
+    // if (updating) {
+    //   newDest.id = destID;
+    //   updateNote(newDest);
+    // }
+    // else {
+    //   submitNote(newDest);
+    // }
+
+    initMap();
+  })
+ 
+
+// function to update map onclick your saved locations column
+
+});
+
+//geocode query for input box
+
+
+
+
 
 // function initMap() {
 
@@ -187,79 +277,10 @@ function initMap() {
   // $(document).on("click", "button.delete", handleNoteDelete);
   // $(document).on("click", "button.edit", handleNoteEdit);
  
-  var notes;
+
 
   // this gets notes from our db and posts them to the page
-  function getNotes() {
-    $.get("/api/notes",  function(data) {
-      console.log("Notes", data);
-      notes = data;
-      if (!notes || !notes.length) {
-        displayEmpty();
-      }
-      else {
-        $("#all-saved-dest").append("<li>");
-      }
-    });
-  }
-getNotes();
-
-// Gets post data for a post if we're editing
-function getNoteData(id) {
-  $.get("/api/notes/" + id, function(data) {
-    if (data) {
-      // If this post exists, prefill our cms forms with its data
-      destInput.val(data.title);
-     
-      // If we have a post with this id, set a flag for us to know to update the post
-      // when we hit submit
-      updating = true;
-    }
-  });
-}
-
-function submitNote(Notes) {
-  $.post("/api/notes/", Notes, function() {
-    window.location.href = "/userdest";
-  });
-}
-submitNote();
-
-
-// function initializeRows() {
-//     noteContainer.empty();
-//     var notesToAdd = [];
-//     for (var i = 0; i < notes.length; i++) {
-//       notesToAdd.push(createNewRow(notes[i]));
-//     }
-//     noteContainer.append(notesToAdd);
-//   }
-function updateNote(note) {
-  $.ajax({
-    method: "PUT",
-    url: "/api/notes",
-    data: post
-  })
-    .then(function() {
-      window.location.href = "/userdest";
-    }); 
-}
-updateNote();
-
-
-  // This function does an API call to delete posts
-  function deleteNote(id) {
-    $.ajax({
-      method: "DELETE",
-      url: "/api/notes/" + id
-    })
-      .then(function() {
-        getNotes(noteCategorySelect.val());
-      });
-  }
-deleteNote();
-
-
+  
   // Getting the initial list of posts
 
   // InitializeRows handles appending all of our constructed post HTML inside
