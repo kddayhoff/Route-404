@@ -1,36 +1,63 @@
 
-/* body {
-  background: url(../assets/images/route404.png) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: contain;
-} */
+body {
+  background: #669966;
+}
+.jumbotron {
+  background-image: url("./assets/images/wave.svg");
+}
+.header {
+  font-family: "Open Sans", sans-serif;
+  font-size: 4.4rem;
+  color: lightgrey;
+  text-align: center
+}
+.intro {
+  font-family: "Open Sans", sans-serif;
+  font-size: 2.4rem;
+  color: white;
+  text-align: center
+}
+.wave-container {
+    position: relative;
+    color: #FFF;
+    text-align: center;
+    overflow: hidden;
+  }
+  .wave-container > svg {
+    display: block;
+  }
 form.signup,
 form.login {
   margin-top: 50px;
 }
-
 button.submit {
   float: right;
 }
-
-form#cms {
-  margin-top: 50px;
-}
-
 #cms textarea {
   resize: none;
 }
-
 .card-header button.delete,
 button.edit {
   float: right;
   margin: 5px;
 }
-
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+@font-face {
+  font-family: "BOMBARD", Arial, sans-serif;
+  src: url("/public/BOMBARD_.otf") format("otf");
+}
 #map {
   height: 400px;
   width: 100%;
   text-align: center;
+}
+#cms textarea {
+  resize: none;
+}
+.bg-custom-1 {
+background-color: rgba(255,255,255, 0.5);
 }
