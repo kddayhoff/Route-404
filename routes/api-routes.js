@@ -7,18 +7,18 @@ var db = require("../models");
 module.exports = function (app, passport) {
 
   // GET route for getting all of the posts of single user, named what id like. connected db variable from destination.js
-  app.get("/api/notes/", function (req, res) {
-    var query = {}
-    if (req.query.user_id) {
-      query.userid = req.query.user_id
-    }
-    db.Notes.findAll({
-      where: query
-    })
-      .then(function (dbNotes) {
-        res.json(dbNotes);
-      });
-  });
+  // app.get("/api/notes/", function (req, res) {
+  //   var query = {}
+  //   if (req.query.user_id) {
+  //     query.userid = req.query.user_id
+  //   }
+  //   db.Notes.findAll({
+  //     where: query
+  //   })
+  //     .then(function (dbNotes) {
+  //       res.json(dbNotes);
+  //     });
+  // });
 
   // Get route for returning a specifiic posts by id
   app.get("/api/notes/:id", function (req, res) {
