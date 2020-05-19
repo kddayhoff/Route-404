@@ -37,14 +37,18 @@
           <div class="col-6">
             <div class="card">
               <div class="card-body">
-                <h4>Login to save your location</h4>
-                <form action=""
-                  autocomplete="off">
+                <h4>Login</h4>
+                <form autocomplete="off"
+                  id="login"
+                  name"login"
+                  method="post"
+                  action="/api/index">
                   <div class="form-group">
                     <label for="inputemail">Email address</label>
                     <input type="email"
                       class="form-control"
                       id="email-input"
+                      name="email"
                       placeholder="Email">
                   </div>
                   <div class="form-group">
@@ -52,9 +56,11 @@
                     <input type="password"
                       class="form-control"
                       id="password-input"
+                      name="password"
                       placeholder="Password">
                   </div>
-                  <button type="submit"
+                  <button id="login-form"
+                    type="submit"
                     class="btn btn-secondary">Login</button>
                   <a class="btn btn-light"
                     href="/userdest.html">Go to destinations page</a>
