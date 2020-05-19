@@ -5,7 +5,7 @@ module.exports = function (passport, user) {
     var User = user;
     var LocalStrategy = require("passport-local").Strategy;
     // Telling passport we want to use a Local Strategy. In other words, we want login with a username/email and password
-    passport.use('local-signup', new LocalStrategy(
+    passport.use("local-signup", new LocalStrategy(
         // Our user will sign in using an email, rather than a "username"
         {
             usernameField: "email",
@@ -44,7 +44,7 @@ module.exports = function (passport, user) {
         }
     ));
     // Login registered user
-    passport.use('local-login', new LocalStrategy(
+    passport.use("local-login", new LocalStrategy(
         // Our user will sign in using an email, rather than a "username"
         {
             usernameField: "email",
@@ -63,21 +63,20 @@ module.exports = function (passport, user) {
                 }
             }).then(function (dbUser) {
                 if (!dbUser) {
-                    return done(null, false, { message: 'Email does not exist' });
+                    return done(null, false, { message: "Email does not exist" });
                 }
 
                 if (!isValidPassword(dbUser.password, password)) {
-                    return done(null, false, { message: 'Incorrect password.' });
+                    return done(null, false, { message: "Incorrect password." });
                 }
 
                 var userinfo = dbUser.get();
                 return done(null, userinfo);
             }).catch(function (err) {
                 console.log("Error:", err);
-                return done(null, false, { message: 'Something went wrong with your Login' });
+                return done(null, false, { message: "Something went wrong with your Login" });
             });
         }));
-
     // In order to help keep authentication state across HTTP requests,
     // Sequelize needs to serialize and deserialize the user
     // Just consider this part boilerplate needed to make it all work
@@ -94,5 +93,4 @@ module.exports = function (passport, user) {
             }
         });
     });
-
 }   
