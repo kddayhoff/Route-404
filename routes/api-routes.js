@@ -21,10 +21,11 @@ module.exports = function (app, passport) {
   // });
 
   // Get route for returning a specifiic posts by id
-  app.get("/api/notes/:id", function (req, res) {
+  app.get("/api/notes/", function (req, res) {
+    console.log(req.user.id)
     db.Notes.findAll({
       where: {
-        id: req.params.id
+        userId: req.user.id
       }
     })
       .then(function (dbNotes) {
@@ -50,6 +51,7 @@ module.exports = function (app, passport) {
     db.Notes.create({
       title: req.body.title,
       body: req.body.body,
+      userId: req.user.id
 
     })
       .then(function (dbNote) {
