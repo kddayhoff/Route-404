@@ -61,3 +61,9 @@ button.edit {
 .bg-custom-1 {
 background-color: rgba(255,255,255, 0.5);
 }
+
+#saved-dest {
+  cursor: pointer;
+  color: blue
+}
+
