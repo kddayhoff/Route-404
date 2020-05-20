@@ -19,6 +19,7 @@ function geocode(query){
     dataType: 'json',
     statusCode: {
       200: function(response){  // success
+        initMap(response.results[0].formatted)
         console.log(response.results[0].formatted);
         console.log(response.results)
       },
@@ -31,9 +32,9 @@ function geocode(query){
   }); 
 }
 
-function initMap() {
+function initMap(PLACENAME) {
 
-  var PLACENAME = document.getElementById("saved-dest").value;
+  // var PLACENAME = document.getElementById("saved-dest").value;
   var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
 
 $.ajax({
@@ -51,7 +52,7 @@ $.ajax({
             lng: lng,
         }   
     });
-    console.log(lat, lng);
+    // console.log(lat, lng);
 var marker = new google.maps.Marker({
     position: {
         lat: lat,
@@ -62,12 +63,28 @@ var marker = new google.maps.Marker({
   })
 };
 
+function getLocation() {
+  $.get("/api/notes",  function(data) {
+    // console.log("Location", data);
+    for (var i = 0; i < data.length; i++) {
+      var newItem = $("<li>");
+      newItem.text(data[i].title);
+      // console.log(newItem);
+      $("#saved-dest").append(newItem);
+      
+    }
+    console.log(data[data.length-1])
+    geocode(data[data.length-1].title)
+    });
+  }
+
+
 function getNotes() {
   $.get("/api/notes",  function(response) {
     console.log("Notes", response);
     for (var i = 0; i < response.length; i++) {
       var newItem = $("<li>");
-      newItem.text(response[i].title + " " + response[i].body);
+      newItem.text(response[i].body);
       console.log(newItem);
       $("#all-saved-dest").append(newItem);
     }
@@ -92,7 +109,7 @@ $.get("/api/notes/" + id, function(data) {
 
 function submitNote(note) {
 $.post("/api/notes/", note, function() {
-  window.location.href = "/userdest";
+  // window.location.href = "/userdest";
 });
 }
 
@@ -140,6 +157,7 @@ $(document).ready(function() {
   var updating = false;
   
   getNotes();
+  getLocation();
 
  
 
@@ -157,7 +175,7 @@ $(document).ready(function() {
 
   // Event listener for when the form is submitted for destination
   $(destInputForm).on("submit", function handleFormSubmit(event) {
-    // event.preventDefault();
+    event.preventDefault();
     
     var newDest = destInput.val().trim()
     var noteText = $("#note-text").val().trim();
@@ -169,7 +187,7 @@ $(document).ready(function() {
     // Constructing a newPost object to hand to the database
     
 
-    geocode(newDest);
+ 
 
     console.log(newDest);
 
@@ -187,7 +205,7 @@ $(document).ready(function() {
     //   submitNote(newDest);
     // }
 
-    initMap();
+    // initMap();
   })
  
 
