@@ -141,8 +141,11 @@ $.get("/api/notes/" + id, function(data) {
 function submitNote(note) {
 $.post("/api/notes/", note, function() {
 
-});
+})
+.then(function() {
+  window.location.href = "/userdest";
 }
+)}
 
 function updateNote(note) {
 $.ajax({
