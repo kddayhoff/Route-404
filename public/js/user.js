@@ -1,11 +1,9 @@
-
-
 //variable for APIkey
 const APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38";
 var notes = [];
 
 
-//function declarations
+//function for geocode to push lat and lng to Google Map API
 function geocode(query){
   $.ajax({
     url: 'https://api.opencagedata.com/geocode/v1/json',
@@ -19,9 +17,9 @@ function geocode(query){
     dataType: 'json',
     statusCode: {
       200: function(response){  // success
-        initMap(response.results[0].formatted)
-        console.log(response.results[0].formatted);
-        console.log(response.results)
+        //running the two initMaps for input and click events
+        initMap(response.results[0].formatted);
+        initMap2(response.results[0].formatted);
       },
       402: function(){
         console.log('hit free-trial daily limit');
@@ -32,9 +30,9 @@ function geocode(query){
   }); 
 }
 
+// function for creating map on input
 function initMap(PLACENAME) {
 
-  // var PLACENAME = document.getElementById("saved-dest").value;
   var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
 
 $.ajax({
@@ -52,7 +50,7 @@ $.ajax({
             lng: lng,
         }   
     });
-    // console.log(lat, lng);
+
 var marker = new google.maps.Marker({
     position: {
         lat: lat,
@@ -63,17 +61,51 @@ var marker = new google.maps.Marker({
   })
 };
 
+
+// function for making the locations clickable
+function initMap2() {
+    
+  $('#saved-dest').on('click', 'li',(function(savedDest) {
+  var savedDest = $(this).text();
+  var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + savedDest + "&key=" + APIkey;
+
+  $.ajax({
+      url: queryURL,
+      method: "GET"
+  }).then(function(response) {
+      
+      var lat = response.results[0].geometry.lat;
+      var lng = response.results[0].geometry.lng;
+      var map = new google.maps.Map(
+          document.getElementById('map'), {
+              zoom: 8, 
+              center: {
+                  lat: lat,
+                  lng: lng
+              }
+          });
+      var marker = new google.maps.Marker({
+          position: {
+              lat: lat,
+              lng: lng
+          },
+           map: map
+          });
+  })
+})
+)
+}
+
+
 function getLocation() {
   $.get("/api/notes",  function(data) {
-    // console.log("Location", data);
     for (var i = 0; i < data.length; i++) {
       var newItem = $("<li>");
       newItem.text(data[i].title);
-      // console.log(newItem);
       $("#saved-dest").append(newItem);
       
     }
-    console.log(data[data.length-1])
+
     geocode(data[data.length-1].title)
     });
   }
@@ -85,7 +117,6 @@ function getNotes() {
     for (var i = 0; i < response.length; i++) {
       var newItem = $("<li>");
       newItem.text(response[i].body);
-      console.log(newItem);
       $("#all-saved-dest").append(newItem);
     }
      
@@ -109,20 +140,10 @@ $.get("/api/notes/" + id, function(data) {
 
 function submitNote(note) {
 $.post("/api/notes/", note, function() {
-  // window.location.href = "/userdest";
+
 });
 }
 
-
-
-// function initializeRows() {
-//     noteContainer.empty();
-//     var notesToAdd = [];
-//     for (var i = 0; i < notes.length; i++) {
-//       notesToAdd.push(createNewRow(notes[i]));
-//     }
-//     noteContainer.append(notesToAdd);
-//   }
 function updateNote(note) {
 $.ajax({
   method: "PUT",
@@ -184,12 +205,7 @@ $(document).ready(function() {
       alert("Must enter destination and note")
       return;
     }
-    // Constructing a newPost object to hand to the database
-    
-
- 
-
-    console.log(newDest);
+  
 
     var newNote = {
       title:newDest,
@@ -197,183 +213,11 @@ $(document).ready(function() {
     };
 
     submitNote(newNote);
-    // if (updating) {
-    //   newDest.id = destID;
-    //   updateNote(newDest);
-    // }
-    // else {
-    //   submitNote(newDest);
-    // }
 
-    // initMap();
   })
  
 
-// function to update map onclick your saved locations column
+
 
 });
 
-//geocode query for input box
-
-
-
-
-
-// function initMap() {
-
-//   $('#saved-dest').on('click', 'li',(function() {
-//     var PLACENAME = $(this).text();
-//     var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
-
-//   $.ajax({
-//     url: queryURL,
-//     method: "GET"
-//   }).then(function(results) {
-    
-//     var lng = parseFloat(results.geometry.lng);
-//     var lat = parseFloat(results.geometry.lat);
-//     var map = new google.maps.Map(
-//       document.getElementById('map'), {
-//           zoom: 8, 
-//           center: {
-//               lat: lat,
-//               lng: lng
-//           }
-//       });
-//   var marker = new google.maps.Marker({
-//       position: {
-//           lat: lat,
-//           lng: lng
-//       },
-//        map: map
-//       });
-//     })
-//   })
-// )
-// };
-
-
-// // function to update map onclick all saved locations column
-// function initMap2() {
-
-//   $('#all-saved-dest').on('click', 'li',(function() {
-//     var PLACENAME = $(this).text();
-//     var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
-
-//   $.ajax({
-//     url: queryURL,
-//     method: "GET"
-//   }).then(function(results) {
-    
-//     var lng = parseFloat(results.geometry.lng);
-//     var lat = parseFloat(results.geometry.lat);
-//     var map = new google.maps.Map(
-//       document.getElementById('map'), {
-//           zoom: 8, 
-//           center: {
-//               lat: lat,
-//               lng: lng
-//           }
-//       });
-//   var marker = new google.maps.Marker({
-//       position: {
-//           lat: lat,
-//           lng: lng
-//       },
-//        map: map
-//       });
-//     })
-//   })
-// )
-// };
-
-
-  // blogContainer holds all of our posts
-  // var noteContainer = $(".note-container");
- 
-  // Click events for the edit and delete buttons
-  // $(document).on("click", "button.delete", handleNoteDelete);
-  // $(document).on("click", "button.edit", handleNoteEdit);
- 
-
-
-  // this gets notes from our db and posts them to the page
-  
-  // Getting the initial list of posts
-
-  // InitializeRows handles appending all of our constructed post HTML inside
-  // blogContainer
-  
-
-  // This function constructs a post's HTML
-  // function createNewRow(post) {
-  //   var newNoteCard = $("<div>");
-  //   newNoteCard.addClass("card");
-  //   var newNoteCardHeading = $("<div>");
-  //   newNoteCardHeading.addClass("card-header");
-  //   var deleteBtn = $("<button>");
-  //   deleteBtn.text("x");
-  //   deleteBtn.addClass("delete btn btn-danger");
-  //   var editBtn = $("<button>");
-  //   editBtn.text("EDIT");
-  //   editBtn.addClass("edit btn btn-default");
-  //   var newNoteTitle = $("<h2>");
-  //   var newNoteDate = $("<small>");
-  //   var newNoteCategory = $("<h5>");
-  //   newNoteCategory.text(note.category);
-  //   newNoteCategory.css({
-  //     float: "right",
-  //     "font-weight": "700",
-  //     "margin-top":
-  //     "-15px"
-  //   });
-  //   var newNoteCardBody = $("<div>");
-  //   newNoteCardBody.addClass("card-body");
-  //   var newNoteBody = $("<p>");
-  //   newNoteTitle.text(note.title + " ");
-  //   newNoteBody.text(note.body);
-  //   var formattedDate = new Date(note.createdAt);
-  //   formattedDate = moment(formattedDate).format("MMMM Do YYYY, h:mm:ss a");
-  //   newNoteDate.text(formattedDate);
-  //   newNoteTitle.append(newNoteDate);
-  //   newNoteCardHeading.append(deleteBtn);
-  //   newNoteCardHeading.append(editBtn);
-  //   newNoteCardHeading.append(newNoteTitle);
-  //   newNoteCardHeading.append(newNoteCategory);
-  //   newNoteCardBody.append(newNoteBody);
-  //   newNoteCard.append(newNoteCardHeading);
-  //   newNoteCard.append(newNoteCardBody);
-  //   newNoteCard.data("note", note);
-  //   return newNoteCard;
-  // }
-
-  // This function figures out which post we want to delete and then calls
-  // deletePost
-  // function handleNoteDelete() {
-  //   var currentNote = $(this)
-  //     .parent()
-  //     .parent()
-  //     .data("note");
-  //   deletePost(currentNote.id);
-  // }
-
-  // This function figures out which post we want to edit and takes it to the
-  // Appropriate url
-  // function handleNoteEdit() {
-  //   var currentNote = $(this)
-  //     .parent()
-  //     .parent()
-  //     .data("note");
-  //   window.location.href = "/notes?user_id=" + currentPost.id;
-  // }
-
-  // This function displays a message when there are no posts
-//   function displayEmpty() {
-//     noteContainer.empty();
-//     var messageH2 = $("<h2>");
-//     messageH2.css({ "text-align": "center", "margin-top": "50px" });
-//     messageH2.html("No posts yet for this category, navigate <a href='/notes'>here</a> in order to create a new post.");
-//     noteContainer.append(messageH2);
-//   }
-// }
-  
