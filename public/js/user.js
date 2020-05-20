@@ -33,7 +33,7 @@ function geocode(query){
 
 function initMap() {
 
-  var PLACENAME = document.getElementById("destination").value;
+  var PLACENAME = document.getElementById("saved-dest").value;
   var queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + PLACENAME + "&key=" + APIkey;
 
 $.ajax({
@@ -63,11 +63,11 @@ var marker = new google.maps.Marker({
 };
 
 function getNotes() {
-  $.get("/api/notes",  function(data) {
-    console.log("Notes", data);
-    for (var i = 0; i < data.length; i++) {
+  $.get("/api/notes",  function(response) {
+    console.log("Notes", response);
+    for (var i = 0; i < response.length; i++) {
       var newItem = $("<li>");
-      newItem.text(data[i].title + " " + data[i].body);
+      newItem.text(response[i].title + " " + response[i].body);
       console.log(newItem);
       $("#all-saved-dest").append(newItem);
     }
@@ -157,7 +157,7 @@ $(document).ready(function() {
 
   // Event listener for when the form is submitted for destination
   $(destInputForm).on("submit", function handleFormSubmit(event) {
-    event.preventDefault();
+    // event.preventDefault();
     
     var newDest = destInput.val().trim()
     var noteText = $("#note-text").val().trim();
