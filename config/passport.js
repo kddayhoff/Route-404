@@ -20,8 +20,8 @@ module.exports = function (passport, user) {
                 where: {
                     email: email
                 }
-            }).then(function (dbUser) {
-                if (dbUser) {
+            }).then(function (user) {
+                if (user) {
                     return done(null, false, { message: "That email is already taken" });
                 }
                 // If there's no user with the given email
@@ -55,22 +55,19 @@ module.exports = function (passport, user) {
             var isValidPassword = function (email, password) {
                 return bcrypt.compareSync(password, email);
             }
-            console.log(email);
-            console.log(password);
             User.findOne({
                 where: {
                     email: email
                 }
-            }).then(function (dbUser) {
-                if (!dbUser) {
+            }).then(function (user) {
+                if (!user) {
+                    console.log("here1");
                     return done(null, false, { message: "Email does not exist" });
                 }
-
-                if (!isValidPassword(dbUser.password, password)) {
+                if (!isValidPassword(user.password, password)) {
                     return done(null, false, { message: "Incorrect password." });
                 }
-
-                var userinfo = dbUser.get();
+                var userinfo = user.get();
                 return done(null, userinfo);
             }).catch(function (err) {
                 console.log("Error:", err);
