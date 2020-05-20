@@ -1,12 +1,22 @@
 
 body {
   background: #669966;
+  font: 1.6rem "Open Sans", sans-serif;
+  color: #404040;
 }
-.jumbotron {
+
+/* .jumbotron {
   background-image: url("./assets/images/wave.svg");
-}
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+} */
 .header {
-  font-family: "Open Sans", sans-serif;
+  font-family: "BOMBARD", Arial, sans-serif;
   font-size: 4.4rem;
   color: lightgrey;
   text-align: center
@@ -48,22 +58,27 @@ button.edit {
 }
 @font-face {
   font-family: "BOMBARD", Arial, sans-serif;
-  src: url("/public/BOMBARD_.otf") format("otf");
+  src: url("./assets/fonts/BOMBARD_.otf") format("otf");
 }
 #map {
   height: 400px;
   width: 100%;
   text-align: center;
 }
-#cms textarea {
-  resize: none;
-}
 .bg-custom-1 {
 background-color: rgba(255,255,255, 0.5);
 }
-
 #saved-dest {
   cursor: pointer;
-  color: blue
+  color: #5F23AD
 }
+ul { 
+list-style-type: none;
+list-style-position: outside;
+} 
+li { 
+padding: 6px; 
+margin: 5px; 
+border-bottom:1px solid #404040 ;
+}  
 
