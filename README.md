@@ -31,7 +31,7 @@ As a user, I would like to have input boxes I could write notes about the locati
 
 ### **Demo**:
 
-![Image of App](public\assets\images\routeGif.gif)  
+![Image of App](.\public\assets\images\routeGif.gif)  
 
 ### <h3 id="Installation">**Install Process**:</h3> 
 > Click on the deployed link! 
