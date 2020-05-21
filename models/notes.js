@@ -1,4 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
+ // created the notes object and the notes table with the columns title & body
   var Notes = sequelize.define("Notes", {
     title: {
       type: DataTypes.STRING,
@@ -13,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
       len: [1]
     }
   });
-
+// associates the notes table with the models folder
   Notes.associate = function (models) {
     Notes.belongsTo(models.user), {
       foreignKey: { allowNull: false }
@@ -22,5 +23,4 @@ module.exports = function (sequelize, DataTypes) {
   }
   return Notes;
 };
-
-// destinations will be associated with users, associate notes with destinations. 
+ 

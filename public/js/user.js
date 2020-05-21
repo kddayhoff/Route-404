@@ -82,35 +82,34 @@ function initMap2() {
               center: {
                   lat: lat,
                   lng: lng
-              }
-          });
+                }
+              });
       var marker = new google.maps.Marker({
           position: {
               lat: lat,
               lng: lng
-          },
-           map: map
+            },
+            map: map
           });
-  })
-})
-)
+      })
+    })
+  )
 }
 
-
+//function to get the saved destinations to the saved locations column
 function getLocation() {
   $.get("/api/notes",  function(data) {
     for (var i = 0; i < data.length; i++) {
       var newItem = $("<li>");
       newItem.text(data[i].title);
-      $("#saved-dest").append(newItem);
-      
+      $("#saved-dest").append(newItem);  
     }
-
+//displays the map on the page using the last item in the notes array
     geocode(data[data.length-1].title)
-    });
-  }
+  });
+}
 
-
+//ffunction to get the notes and add them to the saved notes array/list on the page
 function getNotes() {
   $.get("/api/notes",  function(response) {
     console.log("Notes", response);
@@ -118,10 +117,9 @@ function getNotes() {
       var newItem = $("<li>");
       newItem.text(response[i].body);
       $("#all-saved-dest").append(newItem);
-    }
-     
-    });
-  }
+    }   
+  });
+}
 
 
 // Gets post data for a post if we're editing
@@ -139,9 +137,7 @@ $.get("/api/notes/" + id, function(data) {
 }
 
 function submitNote(note) {
-$.post("/api/notes/", note, function() {
-
-})
+$.post("/api/notes/", note, function() {})
 .then(function() {
   window.location.href = "/userdest";
 }
@@ -158,8 +154,6 @@ $.ajax({
   }); 
 }
 
-
-
 // This function does an API call to delete posts
 function deleteNote(id) {
   $.ajax({
@@ -172,7 +166,6 @@ function deleteNote(id) {
 }
 
 
-
 $(document).ready(function() {
   // Gets an optional query string from our url (i.e. ?post_id=23)
   var url = window.location.search;
@@ -183,8 +176,6 @@ $(document).ready(function() {
   getNotes();
   getLocation();
 
- 
-
   // If we have this section in our url, we pull out the post id from the url
   if (url.indexOf("?destination_id=") !== -1) {
     destID = url.split("=")[1];
@@ -192,7 +183,6 @@ $(document).ready(function() {
   }
 
   // Getting jQuery references to the post destination
-
   var destInput = $("#destination");
   var destInputForm = $("#destInput");
 
@@ -218,9 +208,5 @@ $(document).ready(function() {
     submitNote(newNote);
 
   })
- 
-
-
-
 });
 
