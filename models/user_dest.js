@@ -1,4 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
+  //userdest model and table with columns for latitude and longitude to capture from user search
   var UserDest = sequelize.define("UserDest", {
     destination_id: {
       type: DataTypes.INTEGER,
@@ -19,20 +20,9 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
     },
 
-    // indexes: [
-    //   {
-    //     unique: false,
-    //     fields: ["destination_id", "destination_lat", "destination_lon"]
-    //   },
-    //   {
-    //     unique: true,
-    //     fields: ['user_id']
-    //   }
-    // ]
+   
   });
-  //   userDest.associate = models => {
-  //     userDest.belongsTo(models.user);
-  //     userDest.hasMany(models.destination);
+  
   return UserDest;
 };
 

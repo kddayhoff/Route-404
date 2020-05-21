@@ -15,7 +15,7 @@ module.exports = function (app) {
 
   // Each of the below routes just handles the HTML page that the user gets sent to.
 
-  // index route loads home page, index.html
+  // index route loads home page, index.html; 
   app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
@@ -31,21 +31,10 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, "../public/userdest.html"));
   });
 
-
   //this will load user specific profile along with journal/destination activities
   app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, "../public/userdest.html"));
   });
-
-
-  //app.get("/", function (req, res) {
-  // If the user already has an account send them to the members page
-  //if (req.user) {
-  // res.redirect("/userdest.html");
-  //}
-  //res.sendFile(path.join(__dirname, "../public/signup.html"));
-  //});
-
 
 
   app.get("/login", function (req, res) {
@@ -56,15 +45,9 @@ module.exports = function (app) {
     res.redirect("/");
     // res.sendFile(path.join(__dirname, "../public/login.html"));
   });
-
-
 }
 
-
-
 function isLoggedIn(req, res, next) {
-
-
   // If the user is logged in, continue with the request to the restricted route
   if (req.isAuthenticated()) {
     console.log("log auth")

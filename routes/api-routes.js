@@ -6,21 +6,8 @@ var db = require("../models");
 // =============================================================
 module.exports = function (app, passport) {
 
-  // GET route for getting all of the posts of single user, named what id like. connected db variable from destination.js
-  // app.get("/api/notes/", function (req, res) {
-  //   var query = {}
-  //   if (req.query.user_id) {
-  //     query.userid = req.query.user_id
-  //   }
-  //   db.Notes.findAll({
-  //     where: query
-  //   })
-  //     .then(function (dbNotes) {
-  //       res.json(dbNotes);
-  //     });
-  // });
-
-  // Get route for returning a specifiic posts by id
+  // GET route for getting all of the posts of single user connected db variable from destination.js
+  
   app.get("/api/notes/", function (req, res) {
     console.log(req.user.id)
     db.Notes.findAll({
@@ -32,8 +19,8 @@ module.exports = function (app, passport) {
         res.json(dbNotes);
       });
   });
-  // route to user table; calling the destinations get route to /users/:id, restrict to a parameter
-  // Get route for retrieving a single post
+  // route to notes table; calling get route to /users/:id, restrict to a parameter
+  // Get route for retrieving a single note
   app.get("/api/notes/:id", function (req, res) {
     db.Notes.findOne({
       where: {
