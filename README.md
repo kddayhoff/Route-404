@@ -1,6 +1,6 @@
 # **Route-404**
 
-## Table of Contents:
+### **Table of Contents**:
 * <a href="#description">Description</a> 
 * <a href="#usage">User Story</a> 
 * <a href="#link">Deployed Heroku Link</a>
@@ -10,9 +10,9 @@
 * <a href="#contributors">Contributors</a> 
 * <a href="#license">License</a>
 
-## Description:
+### **Description**:
 This application will allow a user to create a travel bucket-list along with a travel journal/tracker.
-## <h2 id="usage">User Story:</h2>
+### <h3 id="usage">**User Story**:</h3>
 ```
 1. User 1
 As a user, I would like a travel application that will allow me to save locations I visit. I would like to be able to login and only see my saved locations.
@@ -28,10 +28,11 @@ As a user, I would like to have input boxes I could write notes about the locati
 
 ## <h2 id="link">[*Deployed Heroku Link*!](https://git.heroku.com/route-404.git)</h2> 
 
-## Demo:
-## <h2 id="Installation">Install Process:</h2> 
-Click on the deployed link! 
-## <h2 id="tech">Technology Stack:</h2>
+### **Demo**:
+
+### <h3 id="Installation">**Install Process**:</h3> 
+> Click on the deployed link! 
+### <h3 id="tech">**Technology Stack**:</h3>
   - Node.js
   - Express
   - HTML
@@ -43,5 +44,11 @@ Click on the deployed link!
   - Bootstrap
   - Dotenv
   - Geocode​
-## Contributors:
-## License:
+### **Contributors**:
+![Kristen](https://avatars0.githubusercontent.com/u/5201511?s=150&u=461ff279b018cfb15a30162bfd2e45f376926f25&v=4)|    ![Andrea](https://avatars0.githubusercontent.com/u/60406213?s=150&u=eea7e033fa5aad8d575d12e807de91ac912e7204&v=4)|    ![Karla](https://avatars3.githubusercontent.com/u/59662740?s=150&u=89423a740572121fdb0e1fcd42bb311a83073cfb&v=4)|    ![Ryan](https://avatars1.githubusercontent.com/u/59925546?s=150&u=19ccb48abfb0c61a5fa7dd875707b4e4a1025ff3&v=4)
+----------|----------|----------|----------
+Kristin Centers| Andrea Fenderson| Karla Dayhoff| Ryan Wilkinson
+kristincenters@gmail.com| Andrea_fenderson@ymail.com| kddayhoff@gmail.com| ryanhwilkinson@icloud.com
+https://kristincenters.github.io/| https://github.com/AJFenderson| https://github.com/kddayhoff| https://github.com/ryanhun7er
+### **License**:
+![license](https://img.shields.io/badge/License-MIT-green)
