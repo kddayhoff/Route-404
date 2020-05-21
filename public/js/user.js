@@ -1,3 +1,5 @@
+
+
 //variable for APIkey
 const APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38";
 var notes = [];
@@ -9,7 +11,7 @@ function geocode(query){
     url: 'https://api.opencagedata.com/geocode/v1/json',
     method: 'GET',
     data: {
-      'key': '47c3a4e7c75c45e7ad46ffc3e676da38',
+      'key': APIkey,
       'q': query,
       'no_annotations': 1
 
