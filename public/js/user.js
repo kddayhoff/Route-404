@@ -114,9 +114,12 @@ function getNotes() {
   $.get("/api/notes",  function(response) {
     console.log("Notes", response);
     for (var i = 0; i < response.length; i++) {
+      var deleteBtn = $("<button class=btn btn-scondary btn-sm>").attr("id", "deleteBtn");
       var newItem = $("<li>");
-      newItem.text(response[i].body);
-      $("#all-saved-dest").append(newItem);
+      newItem.html(response[i].body);
+      $("#all-saved-dest").append(newItem);$("#all-saved-dest").append(deleteBtn);
+      $(deleteBtn).html("Delete");
+      
     }   
   });
 }
@@ -126,9 +129,7 @@ function getNotes() {
 function getNoteData(id) {
 $.get("/api/notes/" + id, function(data) {
   if (data) {
-    // If this post exists, prefill our cms forms with its data
     destInput.val(data.title);
-   
     // If we have a post with this id, set a flag for us to know to update the post
     // when we hit submit
     updating = true;
@@ -143,16 +144,16 @@ $.post("/api/notes/", note, function() {})
 }
 )}
 
-function updateNote(note) {
-$.ajax({
-  method: "PUT",
-  url: "/api/notes",
-  data: note
-})
-  .then(function() {
-    window.location.href = "/userdest";
-  }); 
-}
+// function updateNote(note) {
+// $.ajax({
+//   method: "PUT",
+//   url: "/api/notes",
+//   data: note
+// })
+//   .then(function() {
+//     window.location.href = "/userdest";
+//   }); 
+// }
 
 // This function does an API call to delete posts
 function deleteNote(id) {
@@ -161,11 +162,9 @@ function deleteNote(id) {
     url: "/api/notes/" + id
   })
     .then(function() {
-      getNotes(noteCategorySelect.val());
+      window.location.href = "/userdest";
     });
 }
-
-
 $(document).ready(function() {
   // Gets an optional query string from our url (i.e. ?post_id=23)
   var url = window.location.search;
@@ -185,8 +184,10 @@ $(document).ready(function() {
   // Getting jQuery references to the post destination
   var destInput = $("#destination");
   var destInputForm = $("#destInput");
+  var noteWall = $("#all-saved-dest");
+  var locationWall = $("#saved-dest");
 
-
+  // ================================================
   // Event listener for when the form is submitted for destination
   $(destInputForm).on("submit", function handleFormSubmit(event) {
     event.preventDefault();
@@ -198,15 +199,25 @@ $(document).ready(function() {
       alert("Must enter destination and note")
       return;
     }
-  
-
     var newNote = {
       title:newDest,
       body:noteText
     };
-
     submitNote(newNote);
 
+  })
+
+  // =============================================
+  $("#deleteBtn").on("submit", function handleFormSubmit(event) {
+    event.preventDefault();
+  var deleteNote =
+  {
+    title:locationWall,
+    body: noteWall
+  }
+    deleteNote(deleteNote);
+    console.log(deleteNote)
+    console.log("am I working?")
   })
 });
 
