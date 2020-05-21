@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("../assets/fonts/open-sans-v17-latin-regular.woff2") format("woff2"),
+       url("../assets/fonts/open-sans-v17-latin-regular.woff") format("woff");
+}
+@font-face {
+  font-family: "BOMBARD", Arial, sans-serif;
+  src: url("../assets/fonts/BOMBARD_.otf") format("otf");
+}
 
 body {
   background: #669966;
@@ -41,7 +50,7 @@ form.login {
   margin-top: 50px;
 }
 button.submit {
-  float: right;
+  text-align: center;
 }
 #cms textarea {
   resize: none;
@@ -51,15 +60,7 @@ button.edit {
   float: right;
   margin: 5px;
 }
-@font-face {
-  font-family: "Open Sans";
-  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
-       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
-}
-@font-face {
-  font-family: "BOMBARD", Arial, sans-serif;
-  src: url("./assets/fonts/BOMBARD_.otf") format("otf");
-}
+
 #map {
   height: 400px;
   width: 100%;
@@ -76,9 +77,15 @@ ul {
 list-style-type: none;
 list-style-position: outside;
 } 
+
 li { 
-padding: 6px; 
-margin: 5px; 
+/* padding: 6px; 
+margin: 5px;  */
 border-bottom:1px solid #404040 ;
+text-align: left;
 }  
+
+h2, h3 {
+  text-align: center;
+}
 
