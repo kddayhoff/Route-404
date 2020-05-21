@@ -114,9 +114,12 @@ function getNotes() {
   $.get("/api/notes",  function(response) {
     console.log("Notes", response);
     for (var i = 0; i < response.length; i++) {
+      var deletBtn = $("<button>").attr("class", "deleteBtn");
       var newItem = $("<li>");
-      newItem.text(response[i].body);
-      $("#all-saved-dest").append(newItem);
+      newItem.html(response[i].body);
+      
+      $("#all-saved-dest").append(newItem);$("#all-saved-dest").append(deletBtn);
+      $(deletBtn).html("Delete Note");
     }   
   });
 }
@@ -161,7 +164,7 @@ function deleteNote(id) {
     url: "/api/notes/" + id
   })
     .then(function() {
-      getNotes(noteCategorySelect.val());
+      window.location.href = "/userdest";
     });
 }
 
@@ -198,13 +201,10 @@ $(document).ready(function() {
       alert("Must enter destination and note")
       return;
     }
-  
-
     var newNote = {
       title:newDest,
       body:noteText
     };
-
     submitNote(newNote);
 
   })
