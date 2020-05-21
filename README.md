@@ -11,7 +11,8 @@
 * <a href="#license">License</a>
 
 ### **Description**:
-This application will allow a user to create a travel bucket-list along with a travel journal/tracker.
+This application will allow a user to create a travel log using their destination of choice.
+
 ### <h3 id="usage">**User Story**:</h3>
 ```
 1. User 1
@@ -26,7 +27,7 @@ As a user, I would like to see an interactive map when I input or select a locat
 As a user, I would like to have input boxes I could write notes about the locations I save.
 ```
 
-## <h2 id="link">[*Deployed Heroku Link*!](https://git.heroku.com/route-404.git)</h2> 
+## <h2 id="link">[*Deployed Heroku Link*!](https://route-404.herokuapp.com/)</h2> 
 
 ### **Demo**:
 
