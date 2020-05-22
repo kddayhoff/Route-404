@@ -6,10 +6,9 @@ var db = require("../models");
 // =============================================================
 module.exports = function (app, passport) {
 
-  // GET route for getting all of the posts of single user connected db variable from destination.js
+  // GET route for getting all of the notes of single user connected db variable from destination.js
   
   app.get("/api/notes/", function (req, res) {
-    console.log(req.user.id)
     db.Notes.findAll({
       where: {
         userId: req.user.id
@@ -32,9 +31,8 @@ module.exports = function (app, passport) {
       });
   });
 
-  // POST route for saving a new post
+  // POST route for saving a new note
   app.post("/api/notes", function (req, res) {
-    console.log(req.body);
     db.Notes.create({
       title: req.body.title,
       body: req.body.body,
@@ -46,7 +44,7 @@ module.exports = function (app, passport) {
       });
   });
 
-  // DELETE route for deleting posts
+  // DELETE route for deleting notes
   app.delete("/api/notes/:id", function (req, res) {
     db.Note.destroy({
       where: {
@@ -58,7 +56,7 @@ module.exports = function (app, passport) {
       });
   });
 
-  // PUT route for updating posts
+  // PUT route for updating notes
   app.put("/api/notes", function (req, res) {
     db.Notes.update(req.body,
       {
@@ -77,7 +75,6 @@ module.exports = function (app, passport) {
 
   app.post('/login', passport.authenticate('local-login', { failureRedirect: "/" }),
     function (req, res) {
-      console.log(res);
       res.redirect('/userdest')
     }
   )

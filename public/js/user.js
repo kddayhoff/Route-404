@@ -1,5 +1,3 @@
-
-
 //variable for APIkey
 const APIkey = "47c3a4e7c75c45e7ad46ffc3e676da38";
 var notes = [];
@@ -8,15 +6,14 @@ var notes = [];
 //function for geocode to push lat and lng to Google Map API
 function geocode(query){
   $.ajax({
-    url: 'https://api.opencagedata.com/geocode/v1/json',
-    method: 'GET',
+    url: "https://api.opencagedata.com/geocode/v1/json",
+    method: "GET",
     data: {
-      'key': APIkey,
-      'q': query,
-      'no_annotations': 1
-
+      "key": APIkey,
+      "q": query,
+      "no_annotations": 1
     },
-    dataType: 'json',
+    dataType: "json",
     statusCode: {
       200: function(response){  // success
         //running the two initMaps for input and click events
@@ -24,8 +21,8 @@ function geocode(query){
         initMap2(response.results[0].formatted);
       },
       402: function(){
-        console.log('hit free-trial daily limit');
-        console.log('become a customer: https://opencagedata.com/pricing');
+        console.log("hit free-trial daily limit");
+        console.log("become a customer: https://opencagedata.com/pricing");
       }
     }
    
@@ -41,7 +38,6 @@ $.ajax({
   url: queryURL,
   method: "GET"
 }).then(function(response) {
-  console.log(response.results[0].geometry.lat);
   var lat = response.results[0].geometry.lat;
   var lng = response.results[0].geometry.lng;
   var map = new google.maps.Map(
@@ -114,7 +110,6 @@ function getLocation() {
 //ffunction to get the notes and add them to the saved notes array/list on the page
 function getNotes() {
   $.get("/api/notes",  function(response) {
-    console.log("Notes", response);
     for (var i = 0; i < response.length; i++) {
       var deleteBtn = $("<button class=btn btn-scondary btn-sm>").attr("id", "deleteBtn");
       var newItem = $("<li>");
@@ -145,17 +140,6 @@ $.post("/api/notes/", note, function() {})
   window.location.href = "/userdest";
 }
 )}
-
-// function updateNote(note) {
-// $.ajax({
-//   method: "PUT",
-//   url: "/api/notes",
-//   data: note
-// })
-//   .then(function() {
-//     window.location.href = "/userdest";
-//   }); 
-// }
 
 // This function does an API call to delete posts
 function deleteNote(id) {
@@ -218,8 +202,7 @@ $(document).ready(function() {
     body: noteWall
   }
     deleteNote(deleteNote);
-    console.log(deleteNote)
-    console.log("am I working?")
+
   })
 });
 

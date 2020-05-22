@@ -18,7 +18,6 @@ module.exports = function (sequelize, DataTypes) {
   Notes.associate = function (models) {
     Notes.belongsTo(models.user), {
       foreignKey: { allowNull: false }
-      //preventing a destination note being made without an user association
     }
   }
   return Notes;

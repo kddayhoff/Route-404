@@ -16,9 +16,7 @@ $(document).ready(function () {
             email: email,
             password: password
         }).then(function (data) {
-            console.log(data);
             window.location.replace("/userdest");
-            // If there's an error, handle it by throwing up a bootstrap alert
         });
     }
 
