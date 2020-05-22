@@ -19,9 +19,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DECIMAL(9, 6),
       allowNull: false,
     },
-
-   
-  });
+});
   
   return UserDest;
 };
